@@ -1,0 +1,862 @@
+<meta charset="utf-8">
+<title>China by Rail — October 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --ink:#0A0D13;
+    --panel:#11151E;
+    --line:#232936;
+    --paper:#EAE3D6;
+    --muted:#8F93A0;
+    --cinnabar:#D8402C;
+    --cinnabar-soft:#E06A55;
+    --gold:#E3B04B;
+    --font-display:"Palatino","Palatino Linotype","Book Antiqua",Georgia,serif;
+    --font-hanzi:"Songti SC","STSong","SimSun",serif;
+    --font-body:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --font-mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    color-scheme: dark;
+  }
+  /* Committed single-theme night world — hold it in both viewer themes */
+  :root[data-theme="light"], :root[data-theme="dark"]{ color-scheme: dark; }
+
+  html,body{ background:var(--ink); color:var(--paper); }
+  body{ font-family:var(--font-body); line-height:1.55; font-size:16px; -webkit-font-smoothing:antialiased; }
+  *{ box-sizing:border-box; }
+  a{ color:var(--cinnabar-soft); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:absolute; top:0; left:0; right:0; z-index:5;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+  }
+  .brand{ font-family:var(--font-mono); font-size:12px; letter-spacing:.22em; color:var(--paper); }
+  .brand b{ color:var(--cinnabar); font-weight:700; }
+  .topnav{ display:flex; gap:22px; }
+  .topnav a{ font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; color:var(--muted); text-transform:uppercase; }
+  .topnav a:hover{ color:var(--paper); text-decoration:none; }
+  @media (max-width:720px){ .topnav{ display:none; } }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative; height:100svh; min-height:620px; overflow:hidden;
+    background:
+      radial-gradient(1200px 600px at 70% 20%, #141a28 0%, var(--ink) 60%);
+  }
+  #glhero{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .hero-scrim{
+    position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(to top, rgba(10,13,19,.92) 0%, rgba(10,13,19,.35) 28%, rgba(10,13,19,0) 55%);
+  }
+  .city-label{
+    position:absolute; z-index:3; pointer-events:none; white-space:nowrap;
+    transform:translate(-50%,-130%);
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.2em; color:rgba(234,227,214,.85);
+    text-shadow:0 1px 6px rgba(10,13,19,.9);
+  }
+  .city-label .hz{ font-family:var(--font-hanzi); font-size:12px; letter-spacing:.1em; color:var(--gold); margin-left:5px; }
+  .city-label.small{ color:rgba(234,227,214,.45); font-size:9px; }
+
+  .hero-copy{
+    position:absolute; left:0; right:0; bottom:0; z-index:4;
+    padding:0 28px 40px;
+  }
+  .hero-inner{ max-width:1080px; margin:0 auto; }
+  .eyebrow{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--gold); margin:0 0 14px;
+  }
+  h1.hero-title{
+    font-family:var(--font-display); font-weight:400; letter-spacing:.005em;
+    font-size:clamp(40px, 6.4vw, 78px); line-height:1.02; margin:0 0 14px;
+    text-wrap:balance;
+  }
+  h1 .red{ color:var(--cinnabar); }
+  .hero-sub{
+    font-size:17px; color:var(--muted); max-width:52ch; margin:0 0 26px;
+  }
+  .hero-sub em{ color:var(--paper); font-style:normal; }
+  .countdown{
+    display:inline-flex; align-items:baseline; gap:10px;
+    border:1px solid var(--line); background:rgba(17,21,30,.72);
+    padding:10px 16px; border-radius:2px; margin-bottom:30px;
+  }
+  .countdown .n{ font-family:var(--font-mono); font-size:22px; color:var(--gold); font-variant-numeric:tabular-nums; }
+  .countdown .t{ font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
+
+  .routestrip{
+    display:flex; flex-wrap:wrap; align-items:center; gap:6px 0;
+    border-top:1px solid var(--line); padding-top:18px;
+  }
+  .routestrip .stop{ display:flex; align-items:baseline; gap:7px; }
+  .routestrip .en{ font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; color:var(--paper); }
+  .routestrip .hz{ font-family:var(--font-hanzi); font-size:13px; color:var(--cinnabar-soft); }
+  .routestrip .arr{ color:var(--muted); margin:0 12px; font-size:11px; }
+  @media (max-width:720px){ .routestrip .arr{ margin:0 8px; } }
+
+  /* ---------- section chrome ---------- */
+  section{ padding:72px 0 8px; }
+  .kicker{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--cinnabar); margin:0 0 10px;
+  }
+  h2{
+    font-family:var(--font-display); font-weight:400; font-size:clamp(28px,3.6vw,42px);
+    line-height:1.1; margin:0 0 18px; text-wrap:balance;
+  }
+  .lede{ color:var(--muted); font-size:17px; max-width:62ch; margin:0 0 8px; }
+  .lede em{ color:var(--paper); font-style:normal; }
+  hr.rule{ border:0; border-top:1px solid var(--line); margin:64px 0 0; }
+
+  /* ---------- deadlines strip ---------- */
+  .deadlines{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:28px; }
+  .dl{ background:var(--panel); padding:16px 18px; }
+  .dl .d{ font-family:var(--font-mono); font-size:12px; color:var(--gold); letter-spacing:.1em; }
+  .dl .w{ font-size:14px; color:var(--paper); margin-top:4px; }
+  .dl .s{ font-size:12px; color:var(--muted); margin-top:2px; }
+
+  /* ---------- city chapters ---------- */
+  .chapter{ position:relative; border-top:1px solid var(--line); padding:56px 0 48px; overflow:hidden; }
+  .chapter:first-of-type{ border-top:0; }
+  .ghost{
+    position:absolute; top:-10px; right:-16px; z-index:0; pointer-events:none;
+    font-family:var(--font-hanzi); font-size:clamp(140px,22vw,260px); line-height:1;
+    color:var(--cinnabar); opacity:.06; user-select:none;
+  }
+  .chapter-grid{ position:relative; z-index:1; display:grid; grid-template-columns:280px 1fr; gap:40px; }
+  @media (max-width:860px){ .chapter-grid{ grid-template-columns:1fr; gap:20px; } }
+
+  .stopnum{ font-family:var(--font-mono); font-size:12px; letter-spacing:.24em; color:var(--gold); }
+  .cityname{ font-family:var(--font-display); font-size:clamp(30px,4vw,40px); line-height:1.05; margin:8px 0 2px; }
+  .cityhz{ font-family:var(--font-hanzi); font-size:19px; color:var(--cinnabar-soft); margin-bottom:16px; }
+  .meta{ font-family:var(--font-mono); font-size:12px; color:var(--muted); line-height:2; }
+  .meta b{ color:var(--paper); font-weight:600; }
+  .meta .conf{ color:var(--gold); }
+
+  .blocks{ display:grid; gap:20px; }
+  .block h4{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--muted); margin:0 0 8px;
+  }
+  .block h4.red{ color:var(--cinnabar); }
+  .block ul{ margin:0; padding:0; list-style:none; }
+  .block li{ padding:7px 0 7px 18px; position:relative; border-top:1px solid rgba(35,41,54,.6); font-size:15px; }
+  .block li:first-child{ border-top:0; }
+  .block li::before{ content:""; position:absolute; left:0; top:15px; width:7px; height:7px; border-radius:50%; background:var(--cinnabar); }
+  .block li.skip::before{ background:transparent; border:1px solid var(--muted); width:6px; height:6px; }
+  .block li b{ color:var(--paper); }
+  .block li .why{ color:var(--muted); }
+  .block li .hz{ font-family:var(--font-hanzi); color:var(--gold); }
+
+  /* ---------- tables ---------- */
+  .tablewrap{ overflow-x:auto; border:1px solid var(--line); margin-top:28px; }
+  table{ border-collapse:collapse; width:100%; min-width:640px; font-size:14px; }
+  th{
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--muted); text-align:left; padding:12px 16px; background:var(--panel);
+    border-bottom:1px solid var(--line);
+  }
+  td{ padding:12px 16px; border-bottom:1px solid rgba(35,41,54,.6); vertical-align:top; }
+  tr:last-child td{ border-bottom:0; }
+  td.mono{ font-family:var(--font-mono); font-size:13px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  td .side{ font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; color:var(--gold); white-space:nowrap; }
+  td .dim{ color:var(--muted); }
+  .tablenote{ font-size:13px; color:var(--muted); margin-top:12px; max-width:70ch; }
+  .tablenote b{ color:var(--paper); }
+
+  /* ---------- tripwires ---------- */
+  .wires{ counter-reset:wire; display:grid; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:28px; }
+  .wire{ counter-increment:wire; background:var(--panel); padding:20px 22px; display:grid; grid-template-columns:44px 1fr; gap:16px; }
+  .wire::before{
+    content:counter(wire); font-family:var(--font-display); font-size:30px; color:var(--cinnabar); line-height:1;
+  }
+  .wire h4{ margin:0 0 4px; font-size:15px; color:var(--paper); }
+  .wire p{ margin:0; font-size:14px; color:var(--muted); }
+  .wire b{ color:var(--gold); font-weight:600; }
+
+  /* ---------- footer ---------- */
+  footer{ border-top:1px solid var(--line); margin-top:80px; padding:32px 0 48px; }
+  footer .wrap{ display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  footer p{ margin:0; font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); }
+  footer .hz{ font-family:var(--font-hanzi); color:var(--cinnabar); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
+
+<header class="hero" id="top">
+  <canvas id="glhero" aria-hidden="true"></canvas>
+  <div id="labels" aria-hidden="true"></div>
+  <div class="hero-scrim"></div>
+  <div class="topbar">
+    <span class="brand"><b>中</b>&nbsp; CHINA · 2026</span>
+    <nav class="topnav">
+      <a href="#cities">Cities</a>
+      <a href="#trains">Trains</a>
+      <a href="#flights">Flights</a>
+      <a href="#tripwires">Tripwires</a>
+    </nav>
+  </div>
+  <div class="hero-copy">
+    <div class="hero-inner">
+      <p class="eyebrow">Solo · October 8–22, 2026 · Seven trains, six cities</p>
+      <h1 class="hero-title">The long way<br>through <span class="red">China</span></h1>
+      <p class="hero-sub"><em>The trains are the trip; the cities are pit stops.</em> Fourteen days riding the high-speed network from Hong Kong to Guangzhou — by way of the Bund, the Warriors, the pandas, and the karst.</p>
+      <div class="countdown" role="status">
+        <span class="n" id="cd-num">—</span>
+        <span class="t" id="cd-label">days until wheels up · MIA 8:40 AM</span>
+      </div>
+      <div class="routestrip" aria-label="Route">
+        <span class="stop"><span class="en">HONG KONG</span><span class="hz">香港</span></span><span class="arr">→</span>
+        <span class="stop"><span class="en">SHANGHAI</span><span class="hz">上海</span></span><span class="arr">→</span>
+        <span class="stop"><span class="en">XI'AN</span><span class="hz">西安</span></span><span class="arr">→</span>
+        <span class="stop"><span class="en">CHENGDU</span><span class="hz">成都</span></span><span class="arr">→</span>
+        <span class="stop"><span class="en">GUILIN</span><span class="hz">桂林</span></span><span class="arr">→</span>
+        <span class="stop"><span class="en">GUANGZHOU</span><span class="hz">广州</span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="deadlines">
+    <p class="kicker">Before the wheels turn</p>
+    <h2>Everything is real-name and booked weeks out</h2>
+    <p class="lede">Trains, Warriors, pandas — all tied to the passport number, all on sale on China time (12 hours ahead of ET). The calendar reminders are the system. <em>Don't freelance.</em></p>
+    <div class="deadlines">
+      <div class="dl"><div class="d">JUL 13</div><div class="w">Visa application opens</div><div class="s">COVA online · 10-yr L visa · then DC embassy via courier</div></div>
+      <div class="dl"><div class="d">AUG 10</div><div class="w">Prescriber call — meds</div><div class="s">Stimulant ADHD meds effectively banned in the mainland</div></div>
+      <div class="dl"><div class="d">SEP 23</div><div class="w">Book G902 · HK → Shanghai</div><div class="s">Business class, seat F — the solo recliner</div></div>
+      <div class="dl"><div class="d">SEP 28</div><div class="w">Book Shanghai → Xi'an</div><div class="s">Morning train so Mount Hua is in daylight</div></div>
+      <div class="dl"><div class="d">SEP 30</div><div class="w">Book the Oct 16 + 18 chain</div><div class="s">Force 重庆西 and 贵阳北 or the triple-train day breaks</div></div>
+      <div class="dl"><div class="d">OCT 5</div><div class="w">Book Guilin → Guangzhou</div><div class="s">Morning departure — the karst is in the first 70 minutes</div></div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="cities">
+    <p class="kicker">The six stops</p>
+    <h2>City by city, in ride order</h2>
+
+    <!-- 01 Hong Kong -->
+    <article class="chapter">
+      <span class="ghost">港</span>
+      <div class="chapter-grid">
+        <div>
+          <div class="stopnum">STOP 01 · OCT 9–11</div>
+          <h3 class="cityname">Hong Kong</h3>
+          <div class="cityhz">香港</div>
+          <div class="meta">
+            <b>Courtyard Sha Tin</b> · King River View<br>
+                        In: CX801 lands 9:00 PM Fri<br>
+            Out: G902 from West Kowloon, Sun — <b>at the station by 9:30 AM</b>
+          </div>
+        </div>
+        <div class="blocks">
+          <div class="block">
+            <h4 class="red">Don't miss</h4>
+            <ul>
+              <li><b>Ten Thousand Buddhas Monastery</b> — 430 statue-lined steps, next door to the hotel. Saturday 9 AM at opening. <span class="why">The one new thing.</span></li>
+              <li><b>Central on foot</b> — Tai Kwun, Man Mo Temple, the mid-levels escalator — then <b>Star Ferry upper deck at dusk</b> and the TST skyline promenade.</li>
+              <li><b>Temple Street</b> for dinner in the night market.</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Eat</h4>
+            <ul>
+              <li><b>Yat Lok</b> roast goose or <b>Tim Ho Wan</b> for Saturday lunch.</li>
+              <li><b>Australia Dairy Co.</b> scrambled-egg toast in Jordan, Sunday on the way to the train. <span class="why">Cash, 30 minutes.</span></li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>The tailor, if doing it</h4>
+            <ul>
+              <li><b>Sam's Tailor</b> — WhatsApp two weeks ahead. 9:40 AM measure, 5:45 PM fitting after the Star Ferry. <span class="why">Tell them up front to RE-MEASURE — you're ~55 lbs lighter than their record. Everything must close Saturday.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 02 Shanghai -->
+    <article class="chapter">
+      <span class="ghost">沪</span>
+      <div class="chapter-grid">
+        <div>
+          <div class="stopnum">STOP 02 · OCT 11–13</div>
+          <h3 class="cityname">Shanghai</h3>
+          <div class="cityhz">上海</div>
+          <div class="meta">
+            <b>Westin Bund Center</b> · King City View<br>
+                        In: G902 arrives ~8 PM Sun<br>
+            Out: morning train to Xi'an, Tue
+          </div>
+        </div>
+        <div class="blocks">
+          <div class="block">
+            <h4 class="red">Don't miss</h4>
+            <ul>
+              <li><b>The Bund at night, straight off the train</b> — 10-minute walk from the Westin; drop bags and go. <span class="why">The lights die at 10 PM.</span></li>
+              <li><b>Shanghai Tower at sunset</b>, ~5 PM Monday. <span class="why">Booked ahead.</span></li>
+              <li><b>Yuyuan Bazaar + the zig-zag bridge at 8:15 AM</b>, before the buses. <span class="why">The inner garden is closed Mondays — the bazaar is 80% of the postcard.</span></li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Eat</h4>
+            <ul>
+              <li>Xiaolongbao crawl on Huanghe Rd: <b>Jia Jia Tang Bao</b> + <b>Yang's Fried Dumplings</b>, side by side. <span class="why">It's hairy-crab season — order anything with crab roe.</span></li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Skip</h4>
+            <ul>
+              <li class="skip"><span class="dim">Yu Garden interior (closed Mondays) · Tianzifang · the river cruise if the Bund already delivered.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 03 Xi'an -->
+    <article class="chapter">
+      <span class="ghost">秦</span>
+      <div class="chapter-grid">
+        <div>
+          <div class="stopnum">STOP 03 · OCT 13–16 · THE LONG STOP</div>
+          <h3 class="cityname">Xi'an</h3>
+          <div class="cityhz">西安</div>
+          <div class="meta">
+            <b>Hilton Xi'an</b> · King Executive<br>
+                        Two full days — the anchor of the trip
+          </div>
+        </div>
+        <div class="blocks">
+          <div class="block">
+            <h4 class="red">Don't miss</h4>
+            <ul>
+              <li><b>Terracotta Warriors at the 8:30 opening</b>, Wednesday — Pit 1 first, then the bronze chariots. <span class="why">Hire a licensed guide inside (~¥250); without context it's a hangar of statues.</span></li>
+              <li><b>City Wall bike ride</b>, Thursday 8 AM — the full 14-km loop on top of a Ming wall. <span class="why">Best 90 minutes in the city.</span></li>
+              <li><b>Muslim Quarter</b> — recon Tuesday night, full graze Thursday. <span class="why">Best after dark.</span></li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Eat</h4>
+            <ul>
+              <li>Roujiamo · biangbiang noodles · yangrou paomo at <b>Laomijia Dayu</b>. <span class="why">Eat on 西羊市 / 大皮院 / 洒金桥 — walk past the main drag.</span></li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Evenings</h4>
+            <ul>
+              <li><b>Song of Everlasting Sorrow</b> outdoor spectacle at Huaqing Palace, Wednesday night. <span class="why">Confirm season.</span></li>
+              <li><b>Datang Everbright City</b> lights + the free 8:30 PM fountain show, Thursday.</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Skip</h4>
+            <ul>
+              <li class="skip"><span class="dim">Bell / Drum Tower climbs · the Tang Dynasty dinner show · every jade-shop detour a driver proposes.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 Chengdu -->
+    <article class="chapter">
+      <span class="ghost">蜀</span>
+      <div class="chapter-grid">
+        <div>
+          <div class="stopnum">STOP 04 · OCT 16–18</div>
+          <h3 class="cityname">Chengdu</h3>
+          <div class="cityhz">成都</div>
+          <div class="meta">
+            <b>Grand Hyatt</b> · King<br>
+                        One Saturday · dawn departure Sunday
+          </div>
+        </div>
+        <div class="blocks">
+          <div class="block">
+            <h4 class="red">Don't miss</h4>
+            <ul>
+              <li><b>Panda Base at the 7:30 opening</b> — cubs first. <span class="why">Gone by 11:30; after 10:30 it's nap time. Booked ahead.</span></li>
+              <li><b>Heming Teahouse, People's Park</b>, Saturday afternoon — bottomless jasmine, the ear cleaning (do it), the marriage market. <span class="why">Best sit-and-watch-China hour of the trip.</span></li>
+              <li><b>Shufeng Yayun Sichuan opera</b>, 8 PM — face-changing up close. <span class="why">Booked ahead.</span></li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Eat</h4>
+            <ul>
+              <li>Friday: <b>hotpot</b> near the hotel — split pot <span class="hz">鸳鸯锅</span>, order <span class="hz">微辣</span> "mild." <span class="why">Chengdu mild is American hot. Sesame-oil dip mandatory.</span></li>
+              <li>Saturday lunch: <b>mapo tofu at Chen Mapo Tofu</b> — the restaurant that invented it in 1862.</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Skip</h4>
+            <ul>
+              <li class="skip"><span class="dim">Kuanzhai Alleys (rebuilt mall-China) · the Leshan day trip · Jinli only as a Friday-dusk lantern stroll. Sunday = zero sightseeing, early train.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 05 Guilin -->
+    <article class="chapter">
+      <span class="ghost">桂</span>
+      <div class="chapter-grid">
+        <div>
+          <div class="stopnum">STOP 05 · OCT 18–20</div>
+          <h3 class="cityname">Guilin</h3>
+          <div class="cityhz">桂林</div>
+          <div class="meta">
+            <b>Shangri-La</b> · Horizon River View King<br>
+                        In: the triple-train Sunday<br>
+            One Monday in the karst
+          </div>
+        </div>
+        <div class="blocks">
+          <div class="block">
+            <h4 class="red">The day — Xingping + Yangshuo, DIY</h4>
+            <ul>
+              <li>8 AM train (25 min) → <b>bamboo raft past the ¥20-bill view</b>. <span class="why">Bring a ¥20 note for the photo. Beats the 4.5-hour cruise: a third the cost, the same climax scenery, at water level.</span></li>
+              <li>Climb <b>Laozhai Hill</b> for the panorama nobody does → beer-fish <span class="hz">啤酒鱼</span> lunch in the old town.</li>
+              <li>E-bike the <b>Yulong River loop</b> in Yangshuo → ~8:30 PM train back. <span class="why">Both trains pre-booked.</span></li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Eat</h4>
+            <ul>
+              <li><b>Guilin rice noodles</b>, ¥10 — the local breakfast religion. Monday pre-train and again Tuesday.</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Skip</h4>
+            <ul>
+              <li class="skip"><span class="dim">Longji rice terraces (5–6 hrs transit, rice likely cut) · Elephant Trunk Hill entry · Seven Star Park. Sunday night: nothing — you just rode three trains.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 06 Guangzhou -->
+    <article class="chapter">
+      <span class="ghost">穗</span>
+      <div class="chapter-grid">
+        <div>
+          <div class="stopnum">STOP 06 · OCT 20–22 · THE EATING CITY</div>
+          <h3 class="cityname">Guangzhou</h3>
+          <div class="cityhz">广州</div>
+          <div class="meta">
+            <b>Crowne Plaza City Centre</b> · King Junior Suite<br>
+                        Out Thu: <b>Didi to CAN Terminal 3 at 7:10 AM</b> — NOT Metro Line 3
+          </div>
+        </div>
+        <div class="blocks">
+          <div class="block">
+            <h4 class="red">Don't miss</h4>
+            <ul>
+              <li><b>Dim sum brunch at Guangzhou Restaurant</b> (est. 1935), Wednesday 8:15 AM — har gow, char siu bao, cheung fun. <span class="why">Solo gets seated fast. The anchor of the day.</span></li>
+              <li><b>Canton Tower at sunset</b>, Tuesday ~5:45 PM up. <span class="why">The whole tower lights up at dark.</span></li>
+              <li><b>Pearl River night cruise</b>, Wednesday ~7:30 PM. <span class="why">Book 1–2 days out.</span></li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Eat — Wednesday is five stops on foot, by design</h4>
+            <ul>
+              <li><b>Wu Cai Ji</b> wonton noodles in its hidden Liwan alley — ¥20, Michelin Bib.</li>
+              <li><b>Nanxin</b> double-skin milk · roast goose at <b>Zhu Zai Ji</b> · a second light dim sum round at <b>Dian Dou De</b>.</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>If there's room</h4>
+            <ul>
+              <li>Chen Clan Ancestral Hall (¥10, best hour of culture in town) · Shamian Island stroll. <span class="why">Cut Shamian before you cut any food.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <hr class="rule">
+
+  <section id="trains">
+    <p class="kicker">The point of the whole thing</p>
+    <h2>Seven trains, and which window to sit at</h2>
+    <p class="lede">Universal rule: <em>book seat F — the solo recliner — on every leg.</em> Business cabins run half-empty; claim F, then swap sides for the key moments.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Leg</th><th>Route</th><th>The scenery moment</th><th>Sit</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">OCT 11 · G902</td><td>West Kowloon → Shanghai Hongqiao <span class="dim">(~8 hrs)</span></td><td>Poyang Lake ~4–5 hrs in; the Huangshan massif at golden hour ~5–6 hrs in</td><td><span class="side">LAKE L · MTNS R</span></td></tr>
+          <tr><td class="mono">OCT 13</td><td>Shanghai → Xi'an North <span class="dim">(~6 hrs)</span></td><td>Mount Hua's sheer granite wall ~5h10 in — morning train keeps it in daylight</td><td><span class="side">LEFT</span></td></tr>
+          <tr><td class="mono">OCT 16</td><td>Xi'an North → Chengdu East <span class="dim">(~3.5 hrs)</span></td><td>45 min of Qinling tunnels, then the Hanzhong basin reveal ~1h15 in. <span class="dim">Tunnels kill signal — download entertainment.</span></td><td><span class="side">LEFT</span></td></tr>
+          <tr><td class="mono">OCT 18 · a</td><td>Chengdu East → Chongqing West <span class="dim">(~1 hr)</span></td><td>The cabin display hitting 350 km/h — the speed-record corridor</td><td><span class="side">EITHER</span></td></tr>
+          <tr><td class="mono">OCT 18 · b</td><td>Chongqing West → Guiyang North <span class="dim">(~2 hrs)</span></td><td>The double-deck Yangtze bridge ~15 min in; the Wujiang gorge on 110-m piers ~1 hr in — blink and it's gone</td><td><span class="side">RIGHT</span></td></tr>
+          <tr><td class="mono">OCT 18 · c</td><td>Guiyang North → Guilin West <span class="dim">(~2.5 hrs)</span></td><td>The Dong-village Duliu valley from Congjiang ~1h15 in; karst begins the last 25 min</td><td><span class="side">BOTH</span></td></tr>
+          <tr><td class="mono">OCT 20</td><td>Guilin West → Guangzhou South <span class="dim">(~2.5 hrs)</span></td><td>All the karst is in the first ~70 min — morning light is best; after Hezhou it's tunnels</td><td><span class="side">BOTH</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tablenote"><b>Booking gotchas:</b> force <b>重庆西</b> (Chongqing West) and depart <b>贵阳北</b> (Guiyang North) or the Oct 18 chain breaks. Book the connections with 40–60 min buffers — the in-station transfer corridors (便捷换乘) connect without re-entering security.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section id="flights">
+    <p class="kicker">Getting there and back</p>
+    <h2>Flights</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Date</th><th>Flight</th><th>Route</th><th>Departs</th><th>Seat / Class</th><th>Conf</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">OCT 8</td><td class="mono">AA1431</td><td>Miami → Chicago O'Hare</td><td class="mono">8:40 AM</td><td>21F · Economy</td><td class="mono">—</td></tr>
+          <tr><td class="mono">OCT 8</td><td class="mono">CX801</td><td>Chicago → Hong Kong <span class="dim">(A350-1000)</span></td><td class="mono">4:15 PM</td><td>32G · Prem Eco</td><td class="mono">—</td></tr>
+          <tr><td class="mono">OCT 22</td><td class="mono">CX983</td><td>Guangzhou → Hong Kong <span class="dim">(A330)</span></td><td class="mono">10:10 AM</td><td>Economy</td><td class="mono">—</td></tr>
+          <tr><td class="mono">OCT 22</td><td class="mono">CX884</td><td>Hong Kong → Los Angeles <span class="dim">(777-300ER)</span></td><td class="mono">12:45 PM</td><td>33K · Prem Eco</td><td class="mono">—</td></tr>
+          <tr><td class="mono">OCT 22</td><td class="mono">AA3078</td><td>Los Angeles → Miami <span class="dim">(arr 11:28 PM)</span></td><td class="mono">3:30 PM</td><td>16C · Economy</td><td class="mono">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tablenote"><b>Return morning:</b> Cathay moved to CAN's new Terminal 3 in March 2026 and Metro Line 3 doesn't serve it. Didi at 7:10 AM, ~40 min, ¥110–150. Check-in for CX983 closes 9:10 AM. Verify the terminal when checking in Oct 20.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section id="tripwires">
+    <p class="kicker">What can actually sink this</p>
+    <h2>The five real tripwires</h2>
+    <div class="wires">
+      <div class="wire"><div><h4>Meds</h4><p>Stimulant ADHD meds are effectively banned in mainland China. <b>Prescriber call Aug 10.</b> Don't board with this unresolved.</p></div></div>
+      <div class="wire"><div><h4>Visa</h4><p>Apply <b>July 13</b> via COVA — nothing else matters if this slips. DC embassy, courier service, 3–4 weeks door-to-door. Backstops calendared Aug 3 and Aug 31.</p></div></div>
+      <div class="wire"><div><h4>Real-name everything</h4><p>Trains, Warriors, pandas are all tied to the passport number and booked weeks ahead. <b>The calendar reminders are the system</b> — don't freelance.</p></div></div>
+      <div class="wire"><div><h4>The Oct 18 triple-train day</h4><p>Chengdu → Chongqing → Guiyang → Guilin all hinges on the first train. <b>Confirm all three legs ticketed before leaving Xi'an.</b></p></div></div>
+      <div class="wire"><div><h4>The tea-ceremony scam</h4><p>Anyone who approaches <em>you</em> in English near a tourist site and suggests going anywhere: <b>smile, no, keep walking.</b> Aimed exactly at solo American men.</p></div></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><span class="hz">一路平安</span> · SAFE TRAVELS</p>
+    <p>OCT 8–22 2026 · SOLO BY RAIL</p>
+  </div>
+</footer>
+
+<script>
+/* ============ countdown ============ */
+(function(){
+  var dep = new Date('2026-10-08T08:40:00-04:00');
+  var el = document.getElementById('cd-num'), lab = document.getElementById('cd-label');
+  function tick(){
+    var ms = dep - new Date();
+    if (ms <= 0){ el.textContent = '在路上'; lab.textContent = 'on the road'; return; }
+    var d = Math.floor(ms/86400000), h = Math.floor(ms%86400000/3600000);
+    el.textContent = d + 'd ' + h + 'h';
+  }
+  tick(); setInterval(tick, 60000);
+})();
+
+/* ============ WebGL hero: China terrain + the rail route ============ */
+(function(){
+  var canvas = document.getElementById('glhero');
+  var gl = canvas.getContext('webgl', {antialias:false, alpha:true, powerPreference:'low-power'});
+  if (!gl){ canvas.style.display='none'; return; }
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  /* ---- geographic mapping ---- */
+  function geo(lon, lat){ return [ (lon-112.5)*0.42, 0, (28.5-lat)*0.50 ]; }
+  var CITIES = [
+    {n:'HONG KONG', hz:'香港', lon:114.17, lat:22.30, major:1},
+    {n:'SHANGHAI',  hz:'上海', lon:121.47, lat:31.23, major:1},
+    {n:"XI'AN",     hz:'西安', lon:108.94, lat:34.34, major:1},
+    {n:'CHENGDU',   hz:'成都', lon:104.07, lat:30.57, major:1},
+    {n:'CHONGQING', hz:'重庆', lon:106.55, lat:29.56, major:0},
+    {n:'GUIYANG',   hz:'贵阳', lon:106.63, lat:26.65, major:0},
+    {n:'GUILIN',    hz:'桂林', lon:110.29, lat:25.27, major:1},
+    {n:'GUANGZHOU', hz:'广州', lon:113.26, lat:23.13, major:1}
+  ];
+  var ROUTE_Y = 0.52;
+
+  /* ---- noise ---- */
+  function hash(i,j){ var s = Math.sin(i*127.1 + j*311.7)*43758.5453; return s - Math.floor(s); }
+  function smooth(t){ return t*t*(3-2*t); }
+  function vnoise(x,y){
+    var xi=Math.floor(x), yi=Math.floor(y), xf=x-xi, yf=y-yi;
+    var a=hash(xi,yi), b=hash(xi+1,yi), c=hash(xi,yi+1), d=hash(xi+1,yi+1);
+    var u=smooth(xf), v=smooth(yf);
+    return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v;
+  }
+  function fbm(x,y){
+    var v=0, amp=0.55, f=1;
+    for(var o=0;o<4;o++){ v += amp*vnoise(x*f, y*f); amp*=0.5; f*=2.1; }
+    return v;
+  }
+  function terrainH(x,z){
+    var h = fbm(x*0.55+7.3, z*0.55+2.1);
+    h = Math.pow(h, 1.6) * 0.62;
+    /* karst spikes near Guilin, gentler on the east coast */
+    var g = geo(110.29,25.27);
+    var dk = Math.exp(-((x-g[0])*(x-g[0]) + (z-g[2])*(z-g[2]))*0.35);
+    h += dk * Math.pow(vnoise(x*3.1, z*3.1), 3.0) * 0.55;
+    var west = Math.max(0, -(x+1.5))*0.10;  /* Tibetan-edge rise to the west */
+    return h + west;
+  }
+
+  /* ---- shaders ---- */
+  function sh(type, src){
+    var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    return s;
+  }
+  function prog(vs, fs){
+    var p = gl.createProgram();
+    gl.attachShader(p, sh(gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, sh(gl.FRAGMENT_SHADER, fs));
+    gl.linkProgram(p); return p;
+  }
+  var PT_VS =
+    'attribute vec3 aPos; attribute float aSize; attribute vec4 aCol;' +
+    'uniform mat4 uMVP; uniform float uScale; varying vec4 vCol;' +
+    'void main(){' +
+    '  vec4 cp = uMVP * vec4(aPos,1.0);' +
+    '  gl_Position = cp;' +
+    '  gl_PointSize = max(aSize * uScale / max(cp.w, 0.6), 1.0);' +
+    '  float fog = clamp(1.0 - (cp.w - 5.0)*0.09, 0.25, 1.0);' +
+    '  vCol = vec4(aCol.rgb, aCol.a * fog);' +
+    '}';
+  var PT_FS =
+    'precision mediump float; varying vec4 vCol;' +
+    'void main(){' +
+    '  float d = length(gl_PointCoord - vec2(0.5));' +
+    '  float a = smoothstep(0.5, 0.05, d);' +
+    '  gl_FragColor = vec4(vCol.rgb, vCol.a * a);' +
+    '}';
+  var LN_VS =
+    'attribute vec3 aPos; uniform mat4 uMVP; varying float vW;' +
+    'void main(){ vec4 cp = uMVP*vec4(aPos,1.0); gl_Position = cp; vW = cp.w; }';
+  var LN_FS =
+    'precision mediump float; uniform vec4 uCol; varying float vW;' +
+    'void main(){ float fog = clamp(1.0 - (vW-5.0)*0.09, 0.25, 1.0); gl_FragColor = vec4(uCol.rgb, uCol.a*fog); }';
+  var ptProg = prog(PT_VS, PT_FS);
+  var lnProg = prog(LN_VS, LN_FS);
+  var ptLoc = {
+    aPos: gl.getAttribLocation(ptProg,'aPos'), aSize: gl.getAttribLocation(ptProg,'aSize'),
+    aCol: gl.getAttribLocation(ptProg,'aCol'), uMVP: gl.getUniformLocation(ptProg,'uMVP'),
+    uScale: gl.getUniformLocation(ptProg,'uScale')
+  };
+  var lnLoc = { aPos: gl.getAttribLocation(lnProg,'aPos'), uMVP: gl.getUniformLocation(lnProg,'uMVP'), uCol: gl.getUniformLocation(lnProg,'uCol') };
+
+  function buildBuffer(data){ var b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW); return b; }
+
+  /* ---- terrain points: [x,y,z, size, r,g,b,a] ---- */
+  var terr = [], NX=150, NZ=96, X0=-7.6, X1=7.6, Z0=-4.4, Z1=4.6;
+  for (var i=0;i<NX;i++) for (var j=0;j<NZ;j++){
+    var x = X0 + (X1-X0)*(i/(NX-1)) + (hash(i,j)-0.5)*0.06;
+    var z = Z0 + (Z1-Z0)*(j/(NZ-1)) + (hash(j,i)-0.5)*0.06;
+    var h = terrainH(x,z);
+    var edge = Math.min(1, 2.2*Math.min((x-X0)/(X1-X0), (X1-x)/(X1-X0)) ) * Math.min(1, 2.2*Math.min((z-Z0)/(Z1-Z0), (Z1-z)/(Z1-Z0)));
+    var t = Math.min(1, h/0.55);
+    var r = 0.16 + t*0.34, g2 = 0.20 + t*0.16, b2 = 0.34 - t*0.02;
+    terr.push(x, h, z, 1.5 + t*1.6, r, g2, b2, (0.16 + t*0.30)*edge);
+  }
+  var terrBuf = buildBuffer(terr), terrN = terr.length/8;
+
+  /* ---- route: catmull-rom through the 8 stations ---- */
+  var P = CITIES.map(function(c){ var p = geo(c.lon,c.lat); p[1]=ROUTE_Y; return p; });
+  function cr(p0,p1,p2,p3,t){
+    var t2=t*t, t3=t2*t;
+    return 0.5*((2*p1) + (-p0+p2)*t + (2*p0-5*p1+4*p2-p3)*t2 + (-p0+3*p1-3*p2+p3)*t3);
+  }
+  var route = [], SEG = 90;
+  for (var s=0;s<P.length-1;s++){
+    var p0=P[Math.max(s-1,0)], p1=P[s], p2=P[s+1], p3=P[Math.min(s+2,P.length-1)];
+    for (var k=0;k<SEG;k++){
+      var t = k/SEG;
+      route.push([ cr(p0[0],p1[0],p2[0],p3[0],t), ROUTE_Y + 0.05*Math.sin((s+t)*2.4), cr(p0[2],p1[2],p2[2],p3[2],t) ]);
+    }
+  }
+  route.push(P[P.length-1].slice());
+  var routeFlat = []; route.forEach(function(p){ routeFlat.push(p[0],p[1],p[2]); });
+  var routeBuf = buildBuffer(routeFlat), routeN = route.length;
+
+  /* route dots (glowing beads along the line) */
+  var beads = [];
+  for (var b3=0;b3<route.length;b3+=3){
+    var p = route[b3];
+    beads.push(p[0],p[1],p[2], 1.9, 0.85,0.25,0.17, 0.55);
+  }
+  var beadBuf = buildBuffer(beads), beadN = beads.length/8;
+
+  /* city node points */
+  var nodes = [];
+  CITIES.forEach(function(c){
+    var p = geo(c.lon,c.lat);
+    var maj = c.major;
+    nodes.push(p[0], ROUTE_Y, p[2], maj?7.5:4.0, 0.89,0.31,0.20, maj?0.95:0.6);   /* core */
+    nodes.push(p[0], ROUTE_Y, p[2], maj?17:9,    0.85,0.25,0.17, maj?0.22:0.12);  /* halo */
+    /* stem down to the terrain */
+  });
+  var nodeBuf = buildBuffer(nodes), nodeN = nodes.length/8;
+
+  /* pulse (the train) — dynamic buffer, 8 trailing points */
+  var TRAIL = 9;
+  var pulseBuf = gl.createBuffer();
+  var pulseData = new Float32Array(TRAIL*8);
+
+  /* ---- matrices ---- */
+  function persp(fov, asp, n, f){
+    var t = 1/Math.tan(fov/2), d = 1/(n-f);
+    return [t/asp,0,0,0, 0,t,0,0, 0,0,(f+n)*d,-1, 0,0,2*f*n*d,0];
+  }
+  function lookAt(e, c, u){
+    var zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2];
+    var zl=1/Math.hypot(zx,zy,zz); zx*=zl; zy*=zl; zz*=zl;
+    var xx=u[1]*zz-u[2]*zy, xy=u[2]*zx-u[0]*zz, xz=u[0]*zy-u[1]*zx;
+    var xl=1/Math.hypot(xx,xy,xz); xx*=xl; xy*=xl; xz*=xl;
+    var yx=zy*xz-zz*xy, yy=zz*xx-zx*xz, yz=zx*xy-zy*xx;
+    return [xx,yx,zx,0, xy,yy,zy,0, xz,yz,zz,0,
+            -(xx*e[0]+xy*e[1]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1];
+  }
+  function mul(a,b){
+    var o = new Array(16);
+    for (var c2=0;c2<4;c2++) for (var r2=0;r2<4;r2++){
+      o[c2*4+r2] = a[r2]*b[c2*4] + a[4+r2]*b[c2*4+1] + a[8+r2]*b[c2*4+2] + a[12+r2]*b[c2*4+3];
+    }
+    return o;
+  }
+
+  /* ---- labels ---- */
+  var labelHost = document.getElementById('labels');
+  var labelEls = CITIES.map(function(c){
+    var el = document.createElement('div');
+    el.className = 'city-label' + (c.major ? '' : ' small');
+    el.innerHTML = c.major ? (c.n + '<span class="hz">' + c.hz + '</span>') : c.hz;
+    labelHost.appendChild(el);
+    return el;
+  });
+
+  /* ---- state ---- */
+  var mx=0, my=0, tmx=0, tmy=0;
+  window.addEventListener('pointermove', function(e){
+    tmx = (e.clientX/window.innerWidth - 0.5)*2;
+    tmy = (e.clientY/window.innerHeight - 0.5)*2;
+  }, {passive:true});
+
+  function resize(){
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    canvas.width = Math.round(w*DPR); canvas.height = Math.round(h*DPR);
+    gl.viewport(0,0,canvas.width,canvas.height);
+  }
+  window.addEventListener('resize', function(){ resize(); if (reduced) draw(11); });
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+  gl.disable(gl.DEPTH_TEST);
+  gl.clearColor(0,0,0,0);
+
+  function bindPts(buf){
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.enableVertexAttribArray(ptLoc.aPos);  gl.vertexAttribPointer(ptLoc.aPos, 3, gl.FLOAT, false, 32, 0);
+    gl.enableVertexAttribArray(ptLoc.aSize); gl.vertexAttribPointer(ptLoc.aSize,1, gl.FLOAT, false, 32, 12);
+    gl.enableVertexAttribArray(ptLoc.aCol);  gl.vertexAttribPointer(ptLoc.aCol, 4, gl.FLOAT, false, 32, 16);
+  }
+
+  var routeLen = route.length;
+  function draw(t){
+    mx += (tmx-mx)*0.04; my += (tmy-my)*0.04;
+    var az = -0.16 + 0.09*Math.sin(t*0.055) + mx*0.10;
+    var el2 = 0.66 - my*0.05;
+    var R = 8.6, ctr = [0.25, 0.0, 0.35];
+    var eye = [ ctr[0] + R*Math.sin(az)*Math.cos(el2), ctr[1] + R*Math.sin(el2), ctr[2] + R*Math.cos(az)*Math.cos(el2) ];
+    var asp = canvas.width/Math.max(canvas.height,1);
+    var mvp = mul(persp(0.72, asp, 0.1, 60), lookAt(eye, ctr, [0,1,0]));
+
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    /* terrain + beads + nodes */
+    gl.useProgram(ptProg);
+    gl.uniformMatrix4fv(ptLoc.uMVP, false, mvp);
+    gl.uniform1f(ptLoc.uScale, canvas.height*0.032);
+    bindPts(terrBuf); gl.drawArrays(gl.POINTS, 0, terrN);
+
+    /* route line */
+    gl.useProgram(lnProg);
+    gl.uniformMatrix4fv(lnLoc.uMVP, false, mvp);
+    gl.uniform4f(lnLoc.uCol, 0.85, 0.25, 0.17, 0.5);
+    gl.bindBuffer(gl.ARRAY_BUFFER, routeBuf);
+    gl.enableVertexAttribArray(lnLoc.aPos);
+    gl.vertexAttribPointer(lnLoc.aPos, 3, gl.FLOAT, false, 12, 0);
+    gl.drawArrays(gl.LINE_STRIP, 0, routeN);
+
+    gl.useProgram(ptProg);
+    gl.uniformMatrix4fv(ptLoc.uMVP, false, mvp);
+    gl.uniform1f(ptLoc.uScale, canvas.height*0.032);
+    bindPts(beadBuf); gl.drawArrays(gl.POINTS, 0, beadN);
+    bindPts(nodeBuf); gl.drawArrays(gl.POINTS, 0, nodeN);
+
+    /* the train pulse */
+    var u = (t*0.011) % 1;
+    for (var q=0;q<TRAIL;q++){
+      var idx = Math.floor(((u - q*0.004) % 1 + 1) % 1 * (routeLen-1));
+      var p = route[idx], o = q*8;
+      pulseData[o]=p[0]; pulseData[o+1]=p[1]+0.015; pulseData[o+2]=p[2];
+      pulseData[o+3] = q===0 ? 10 : (7-q*0.7);
+      pulseData[o+4]=0.95; pulseData[o+5]=0.75; pulseData[o+6]=0.32;
+      pulseData[o+7] = q===0 ? 1.0 : Math.max(0, 0.55 - q*0.06);
+    }
+    gl.bindBuffer(gl.ARRAY_BUFFER, pulseBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, pulseData, gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(ptLoc.aPos);  gl.vertexAttribPointer(ptLoc.aPos, 3, gl.FLOAT, false, 32, 0);
+    gl.enableVertexAttribArray(ptLoc.aSize); gl.vertexAttribPointer(ptLoc.aSize,1, gl.FLOAT, false, 32, 12);
+    gl.enableVertexAttribArray(ptLoc.aCol);  gl.vertexAttribPointer(ptLoc.aCol, 4, gl.FLOAT, false, 32, 16);
+    gl.drawArrays(gl.POINTS, 0, TRAIL);
+
+    /* labels */
+    var W = canvas.clientWidth, H = canvas.clientHeight;
+    CITIES.forEach(function(c, ci){
+      var p = geo(c.lon,c.lat);
+      var x=p[0], y=ROUTE_Y, z=p[2];
+      var cx = mvp[0]*x + mvp[4]*y + mvp[8]*z  + mvp[12];
+      var cy = mvp[1]*x + mvp[5]*y + mvp[9]*z  + mvp[13];
+      var cw = mvp[3]*x + mvp[7]*y + mvp[11]*z + mvp[15];
+      var el3 = labelEls[ci];
+      if (cw < 0.5){ el3.style.display='none'; return; }
+      el3.style.display='';
+      el3.style.left = ((cx/cw*0.5+0.5)*W) + 'px';
+      el3.style.top  = ((-cy/cw*0.5+0.5)*H) + 'px';
+    });
+  }
+
+  resize();
+  if (reduced){
+    draw(11);
+  } else {
+    var heroVisible = true, rafId = null, start = null;
+    function loop(ts){
+      rafId = null;
+      if (!heroVisible) return;
+      if (start===null) start = ts;
+      draw((ts-start)/1000 + 11);
+      rafId = requestAnimationFrame(loop);
+    }
+    if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(entries){
+        heroVisible = entries[0].isIntersecting;
+        if (heroVisible && rafId===null) rafId = requestAnimationFrame(loop);
+      }).observe(canvas);
+    }
+    rafId = requestAnimationFrame(loop);
+  }
+})();
+</script>
