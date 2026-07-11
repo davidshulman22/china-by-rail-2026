@@ -1,3 +1,5 @@
+<!doctype html>
+<html lang="en">
 <meta charset="utf-8">
 <title>China by Rail — October 2026</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -153,6 +155,16 @@
   .block li .why{ color:var(--muted); }
   .block li .hz{ font-family:var(--font-hanzi); color:var(--gold); }
 
+  /* ---------- transit rows ---------- */
+  .block ul.transit li{ padding-left:0; }
+  .block ul.transit li::before{ display:none; }
+  .tag{
+    display:inline-block; font-family:var(--font-mono); font-size:9px; letter-spacing:.14em;
+    color:var(--gold); border:1px solid var(--line); border-radius:2px; padding:2px 6px;
+    margin-right:8px; vertical-align:1px; white-space:nowrap;
+  }
+  .tag.walk{ color:var(--cinnabar-soft); }
+
   /* ---------- tables ---------- */
   .tablewrap{ overflow-x:auto; border:1px solid var(--line); margin-top:28px; }
   table{ border-collapse:collapse; width:100%; min-width:640px; font-size:14px; }
@@ -169,6 +181,25 @@
   .tablenote{ font-size:13px; color:var(--muted); margin-top:12px; max-width:70ch; }
   .tablenote b{ color:var(--paper); }
 
+  /* ---------- tech section ---------- */
+  h3.tech-h{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.26em; text-transform:uppercase;
+    color:var(--gold); margin:48px 0 6px; font-weight:600;
+  }
+  h3.tech-h .n{ color:var(--cinnabar); margin-right:8px; }
+  .tech-sub{ font-size:14px; color:var(--muted); margin:0 0 4px; max-width:70ch; }
+  .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:18px; }
+  .card{ background:var(--panel); padding:18px 20px; }
+  .card h4{ margin:0 0 8px; font-family:var(--font-mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--cinnabar-soft); }
+  .card p{ margin:0; font-size:14px; color:var(--muted); }
+  .card p b{ color:var(--paper); font-weight:600; }
+  .card p .gold{ color:var(--gold); }
+  .card ul{ margin:6px 0 0; padding-left:16px; font-size:13.5px; color:var(--muted); }
+  .card li{ margin:3px 0; }
+  .card li b{ color:var(--paper); }
+  .ok{ color:#7FB069; font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; }
+  .no{ color:var(--cinnabar-soft); font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; }
+
   /* ---------- tripwires ---------- */
   .wires{ counter-reset:wire; display:grid; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:28px; }
   .wire{ counter-increment:wire; background:var(--panel); padding:20px 22px; display:grid; grid-template-columns:44px 1fr; gap:16px; }
@@ -178,6 +209,38 @@
   .wire h4{ margin:0 0 4px; font-size:15px; color:var(--paper); }
   .wire p{ margin:0; font-size:14px; color:var(--muted); }
   .wire b{ color:var(--gold); font-weight:600; }
+
+  /* ---------- journey tracker ---------- */
+  .tracker-panel{ border:1px solid var(--line); background:var(--panel); margin-top:28px; }
+  #trackmap{ display:block; width:100%; height:auto; }
+  .tracker-controls{ display:flex; flex-wrap:wrap; gap:14px; align-items:center; padding:14px 16px; border-top:1px solid var(--line); }
+  .tbtn{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--paper); background:none; border:1px solid var(--line); padding:8px 14px; cursor:pointer; border-radius:2px;
+  }
+  .tbtn:hover{ border-color:var(--cinnabar); color:var(--gold); }
+  .tbtn[aria-pressed="true"]{ border-color:var(--cinnabar); color:var(--cinnabar-soft); }
+  #tslider{ flex:1; min-width:180px; -webkit-appearance:none; appearance:none; height:2px; background:var(--line); outline:none; }
+  #tslider::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none; width:16px; height:16px; border-radius:50%; background:var(--gold); border:2px solid var(--ink); cursor:pointer; }
+  #tslider::-moz-range-thumb{ width:14px; height:14px; border-radius:50%; background:var(--gold); border:2px solid var(--ink); cursor:pointer; }
+  #tslider:focus-visible{ outline:2px solid var(--gold); outline-offset:4px; }
+  .tclock{ font-family:var(--font-mono); font-size:12px; color:var(--gold); letter-spacing:.06em; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .tstatus{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border-top:1px solid var(--line); }
+  @media (max-width:720px){ .tstatus{ grid-template-columns:1fr; } }
+  .tcell{ background:var(--panel); padding:16px 18px; min-height:96px; }
+  .tcell h5{ margin:0 0 6px; font-family:var(--font-mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
+  .tcell .big{ font-size:16px; color:var(--paper); line-height:1.4; }
+  .tcell .big b{ color:var(--cinnabar-soft); font-weight:600; }
+  .tcell .sub{ font-size:13px; color:var(--muted); margin-top:5px; }
+  .tcell .sub b{ color:var(--gold); font-weight:600; }
+
+  /* ---------- city schematic maps ---------- */
+  .citymap{ margin-top:18px; border:1px solid var(--line); background:var(--panel); }
+  .citymap svg{ display:block; width:100%; height:auto; }
+  .citymap text{ font-family:var(--font-mono); font-size:9px; fill:rgba(234,227,214,.8); letter-spacing:.03em; }
+  .citymap text.gold{ fill:var(--gold); }
+  .citymap text.dim{ fill:rgba(143,147,160,.8); }
+  .citymap text.cap{ font-size:8px; letter-spacing:.18em; fill:rgba(143,147,160,.55); }
 
   /* ---------- footer ---------- */
   footer{ border-top:1px solid var(--line); margin-top:80px; padding:32px 0 48px; }
@@ -197,9 +260,12 @@
   <div class="topbar">
     <span class="brand"><b>中</b>&nbsp; CHINA · 2026</span>
     <nav class="topnav">
+      <a href="#tracker">Tracker</a>
       <a href="#cities">Cities</a>
       <a href="#trains">Trains</a>
       <a href="#flights">Flights</a>
+      <a href="#tech">Tech</a>
+      <a href="#packing">Packing</a>
       <a href="#tripwires">Tripwires</a>
     </nav>
   </div>
@@ -232,7 +298,6 @@
     <p class="lede">Trains, Warriors, pandas — all tied to the passport number, all on sale on China time (12 hours ahead of ET). The calendar reminders are the system. <em>Don't freelance.</em></p>
     <div class="deadlines">
       <div class="dl"><div class="d">JUL 13</div><div class="w">Visa application opens</div><div class="s">COVA online · 10-yr L visa · then DC embassy via courier</div></div>
-      <div class="dl"><div class="d">AUG 10</div><div class="w">Prescriber call — meds</div><div class="s">Stimulant ADHD meds effectively banned in the mainland</div></div>
       <div class="dl"><div class="d">SEP 23</div><div class="w">Book G902 · HK → Shanghai</div><div class="s">Business class, seat F — the solo recliner</div></div>
       <div class="dl"><div class="d">SEP 28</div><div class="w">Book Shanghai → Xi'an</div><div class="s">Morning train so Mount Hua is in daylight</div></div>
       <div class="dl"><div class="d">SEP 30</div><div class="w">Book the Oct 16 + 18 chain</div><div class="s">Force 重庆西 and 贵阳北 or the triple-train day breaks</div></div>
@@ -242,9 +307,31 @@
 
   <hr class="rule">
 
+  <section id="tracker">
+    <p class="kicker">Where's the train</p>
+    <h2>Journey tracker</h2>
+    <p class="lede">Scrub the timeline — or hit <em>Now</em> once the trip starts — to see where you are: which city, which train, what's out the window and which side to watch. Times marked ~ are planning estimates until tickets are issued (~15 days out).</p>
+    <div class="tracker-panel">
+      <canvas id="trackmap" aria-label="Route map with live train position"></canvas>
+      <div class="tracker-controls">
+        <button class="tbtn" id="tplay" aria-pressed="false">&#9654; Play</button>
+        <button class="tbtn" id="tnow">Now</button>
+        <input type="range" id="tslider" min="0" max="21600" step="5" value="0" aria-label="Trip timeline">
+        <span class="tclock" id="tclock">—</span>
+      </div>
+      <div class="tstatus">
+        <div class="tcell"><h5>Status</h5><div class="big" id="tstate">—</div><div class="sub" id="tnext">—</div></div>
+        <div class="tcell"><h5 id="twin-h">Out the window</h5><div class="big" id="twin">—</div><div class="sub" id="twin-next">—</div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
   <section id="cities">
     <p class="kicker">The six stops</p>
     <h2>City by city, in ride order</h2>
+    <p class="lede"><em>Didi is China's Uber</em> — it runs inside the Alipay app in English, no Chinese phone number needed, and it's the default for every station transfer below. Hong Kong is the exception: Octopus + MTR, taxis, or Uber. Each chapter's Station ↔ hotel block says when to ride rail and when to just take the car.</p>
 
     <!-- 01 Hong Kong -->
     <article class="chapter">
@@ -255,16 +342,18 @@
           <h3 class="cityname">Hong Kong</h3>
           <div class="cityhz">香港</div>
           <div class="meta">
-            <b>Courtyard Sha Tin</b> · King River View<br>
-                        In: CX801 lands 9:00 PM Fri<br>
-            Out: G902 from West Kowloon, Sun — <b>at the station by 9:30 AM</b>
+            <b>W Hong Kong</b> · Kowloon Station<br>
+            1 Austin Rd West, Kowloon Stn · <a href="tel:+85237172222">+852 3717 2222</a><br>
+            In: CX801 lands 9:00 PM Fri<br>
+            Out: G902, Sun — West Kowloon is a <b>10-min walk</b>; be there 9:30 AM
           </div>
+          <div class="citymap" data-city="hk"></div>
         </div>
         <div class="blocks">
           <div class="block">
             <h4 class="red">Don't miss</h4>
             <ul>
-              <li><b>Ten Thousand Buddhas Monastery</b> — 430 statue-lined steps, next door to the hotel. Saturday 9 AM at opening. <span class="why">The one new thing.</span></li>
+              <li><b>Ten Thousand Buddhas Monastery</b> — 430 statue-lined steps, out in Sha Tin. Saturday 9 AM at opening; Tuen Ma line Austin → Tai Wai, one East Rail stop to Sha Tin (~35 min). <span class="why">The one new thing — and the trip's one deliberate stair climb: ~20 steady minutes up, statues the whole way, take it slow.</span></li>
               <li><b>Central on foot</b> — Tai Kwun, Man Mo Temple, the mid-levels escalator — then <b>Star Ferry upper deck at dusk</b> and the TST skyline promenade.</li>
               <li><b>Temple Street</b> for dinner in the night market.</li>
             </ul>
@@ -279,7 +368,14 @@
           <div class="block">
             <h4>The tailor, if doing it</h4>
             <ul>
-              <li><b>Sam's Tailor</b> — WhatsApp two weeks ahead. 9:40 AM measure, 5:45 PM fitting after the Star Ferry. <span class="why">Tell them up front to RE-MEASURE — you're ~55 lbs lighter than their record. Everything must close Saturday.</span></li>
+              <li><b>Sam's Tailor</b> — WhatsApp two weeks ahead. 9:40 AM measure, 5:45 PM fitting after the Star Ferry. <span class="why">Everything must close Saturday.</span></li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Station &harr; hotel</h4>
+            <ul class="transit">
+              <li><span class="tag">TRAIN</span><b>In, Fri night (HKG airport → hotel):</b> Airport Express to <b>Kowloon Station</b> — 22 min, ~HK$105 — and the W is physically connected to the station (walk up through Elements mall, no street). <span class="why">Beats a HK$300 taxi into Friday-night traffic. Octopus or contactless at the gate. Taxi rank is the fallback if the flight lands ugly.</span></li>
+              <li><span class="tag walk">WALK</span><b>Out, Sun (hotel → West Kowloon):</b> the HSR station is a ~10-minute covered walk from the lobby. <span class="why">Leave 9:15, at the station 9:30 — mainland immigration happens there. This is why the W wins: train morning is an elevator ride.</span></li>
             </ul>
           </div>
         </div>
@@ -296,9 +392,11 @@
           <div class="cityhz">上海</div>
           <div class="meta">
             <b>Westin Bund Center</b> · King City View<br>
-                        In: G902 arrives ~8 PM Sun<br>
+            88 Henan Central Rd, Huangpu · <a href="tel:+862163351888">+86 21 6335 1888</a><br>
+            In: G902 arrives ~8 PM Sun<br>
             Out: morning train to Xi'an, Tue
           </div>
+          <div class="citymap" data-city="sh"></div>
         </div>
         <div class="blocks">
           <div class="block">
@@ -321,6 +419,13 @@
               <li class="skip"><span class="dim">Yu Garden interior (closed Mondays) · Tianzifang · the river cruise if the Bund already delivered.</span></li>
             </ul>
           </div>
+          <div class="block">
+            <h4>Station &harr; hotel</h4>
+            <ul class="transit">
+              <li><span class="tag">DIDI</span><b>In, Sun ~7:45 PM (Hongqiao → hotel):</b> Didi or the official taxi rank — 35–50 min, ¥70–90. <span class="why">Don’t be a hero on the metro tonight: 18 km with bags, and the Bund lights die at 10. Ignore anyone inside the station offering a “taxi” — rank or Didi only.</span></li>
+              <li><span class="tag">DIDI</span><b>Out, Tue ~9:00 AM (hotel → Hongqiao):</b> Didi, allow a full 60 min in rush hour, ¥80–100. <span class="why">If the train ends up later than ~11:30, Metro Line 2 from East Nanjing Rd (~50 min, ¥5) is traffic-immune. Foreigners use the manned passport gate; be there 60 min early.</span></li>
+            </ul>
+          </div>
         </div>
       </div>
     </article>
@@ -335,15 +440,17 @@
           <div class="cityhz">西安</div>
           <div class="meta">
             <b>Hilton Xi'an</b> · King Executive<br>
-                        Two full days — the anchor of the trip
+            199 Dongxin Rd, Xincheng District · <a href="tel:+862987388888">+86 29 8738 8888</a><br>
+            Two full days — the anchor of the trip
           </div>
+          <div class="citymap" data-city="xa"></div>
         </div>
         <div class="blocks">
           <div class="block">
             <h4 class="red">Don't miss</h4>
             <ul>
               <li><b>Terracotta Warriors at the 8:30 opening</b>, Wednesday — Pit 1 first, then the bronze chariots. <span class="why">Hire a licensed guide inside (~¥250); without context it's a hangar of statues.</span></li>
-              <li><b>City Wall bike ride</b>, Thursday 8 AM — the full 14-km loop on top of a Ming wall. <span class="why">Best 90 minutes in the city.</span></li>
+              <li><b>City Wall walk</b>, Thursday 8 AM — up at the South Gate for a 30–45 min stroll on top of the Ming wall before the heat. <span class="why">The wall-top is wide and flat — you get the view without the 14-km bike loop.</span></li>
               <li><b>Muslim Quarter</b> — recon Tuesday night, full graze Thursday. <span class="why">Best after dark.</span></li>
             </ul>
           </div>
@@ -366,6 +473,13 @@
               <li class="skip"><span class="dim">Bell / Drum Tower climbs · the Tang Dynasty dinner show · every jade-shop detour a driver proposes.</span></li>
             </ul>
           </div>
+          <div class="block">
+            <h4>Station &harr; hotel</h4>
+            <ul class="transit">
+              <li><span class="tag">DIDI</span><b>In (Xi’an North → Hilton):</b> Didi from the 网约车 pickup zone — 30–40 min, ¥35–50. <span class="why">Metro Line 4 runs direct to Wulukou + a 900 m walk (~40 min, ¥5) if you’re not wrecked — but after a 6-hour train, take the car.</span></li>
+              <li><span class="tag">DIDI</span><b>Out, Fri (hotel → Xi’an North):</b> leave the Hilton <b>2 hours before</b> the train — the ride is ~35 min, the station is enormous, and the foreigner passport gates queue. <span class="why">All your trains use Xi’an NORTH (西安北) — don’t let Didi autocomplete send you to the old downtown Xi’an Station.</span></li>
+            </ul>
+          </div>
         </div>
       </div>
     </article>
@@ -380,8 +494,10 @@
           <div class="cityhz">成都</div>
           <div class="meta">
             <b>Grand Hyatt</b> · King<br>
-                        One Saturday · dawn departure Sunday
+            8 Chunxi Rd South, Jinjiang District · <a href="tel:+862866661234">+86 28 6666 1234</a><br>
+            One Saturday · dawn departure Sunday
           </div>
+          <div class="citymap" data-city="cd"></div>
         </div>
         <div class="blocks">
           <div class="block">
@@ -405,6 +521,13 @@
               <li class="skip"><span class="dim">Kuanzhai Alleys (rebuilt mall-China) · the Leshan day trip · Jinli only as a Friday-dusk lantern stroll. Sunday = zero sightseeing, early train.</span></li>
             </ul>
           </div>
+          <div class="block">
+            <h4>Station &harr; hotel</h4>
+            <ul class="transit">
+              <li><span class="tag">METRO</span><b>In (Chengdu East → Grand Hyatt):</b> Metro Line 2 toward Xipu (犀浦), 8 stops to <b>Chunxi Road</b>, ~20 min, ¥4 — the hotel is essentially on top of the station (Chicony Square exit). <span class="why">Escalators the whole way and you skip the East Station taxi scrum. Didi if you’re fried: 25–35 min, ¥25–35.</span></li>
+              <li><span class="tag">DIDI</span><b>Out, Sun dawn (hotel → Chengdu East):</b> Didi at ~7:00 — 20–25 min at that hour, ¥25–30. <span class="why">Line 2 does start ~6:10, but the whole triple-train day hinges on this first train. Don’t gamble to save ¥25.</span></li>
+            </ul>
+          </div>
         </div>
       </div>
     </article>
@@ -419,17 +542,19 @@
           <div class="cityhz">桂林</div>
           <div class="meta">
             <b>Shangri-La</b> · Horizon River View King<br>
-                        In: the triple-train Sunday<br>
+            111 Huancheng North 2nd Rd · <a href="tel:+867732698888">+86 773 269 8888</a><br>
+            In: the triple-train Sunday<br>
             One Monday in the karst
           </div>
+          <div class="citymap" data-city="gl"></div>
         </div>
         <div class="blocks">
           <div class="block">
             <h4 class="red">The day — Xingping + Yangshuo, DIY</h4>
             <ul>
               <li>8 AM train (25 min) → <b>bamboo raft past the ¥20-bill view</b>. <span class="why">Bring a ¥20 note for the photo. Beats the 4.5-hour cruise: a third the cost, the same climax scenery, at water level.</span></li>
-              <li>Climb <b>Laozhai Hill</b> for the panorama nobody does → beer-fish <span class="hz">啤酒鱼</span> lunch in the old town.</li>
-              <li>E-bike the <b>Yulong River loop</b> in Yangshuo → ~8:30 PM train back. <span class="why">Both trains pre-booked.</span></li>
+              <li>The <b>riverside walk north toward Yucun</b> — flat, quiet, karst towers the whole way → beer-fish <span class="hz">啤酒鱼</span> lunch in the old town.</li>
+              <li>Wander <b>Yangshuo</b> — West Street, the riverside paths, a lazy Yulong bamboo-raft drift if the afternoon is warm → ~8:30 PM train back. <span class="why">Both trains pre-booked.</span></li>
             </ul>
           </div>
           <div class="block">
@@ -441,7 +566,15 @@
           <div class="block">
             <h4>Skip</h4>
             <ul>
-              <li class="skip"><span class="dim">Longji rice terraces (5–6 hrs transit, rice likely cut) · Elephant Trunk Hill entry · Seven Star Park. Sunday night: nothing — you just rode three trains.</span></li>
+              <li class="skip"><span class="dim">Laozhai Hill (1,100 steep, rough steps — past the short-hike line) · Longji rice terraces (5–6 hrs transit, rice likely cut) · Elephant Trunk Hill entry · Seven Star Park. Sunday night: nothing — you just rode three trains.</span></li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Station &harr; hotel</h4>
+            <ul class="transit">
+              <li><span class="tag">DIDI</span><b>In, Sun evening (Guilin West → Shangri-La):</b> Didi from the ride-hailing point — 25–35 min, ¥35–50. <span class="why">No metro in Guilin; the station is 13 km out in semi-rural Dingjiang. The taxi rank is fine too — insist on the meter (打表).</span></li>
+              <li><span class="tag">NOTE</span><b>Monday’s Yangshuo day uses a different station:</b> downtown <b>Guilin Station 桂林站</b> — Didi 10–15 min, ¥15–20; be there 40 min before the ~8 AM train.</li>
+              <li><span class="tag">DIDI</span><b>Out, Tue (hotel → Guilin West):</b> Didi ~20–25 min, ¥25–35 — Reed Flute Cave is roughly on the way if the clock allows. <span class="why">Be there 45–60 min early: small station, slow foreigner ID lines. Three stations in town — your ticket says WEST (桂林西).</span></li>
             </ul>
           </div>
         </div>
@@ -458,8 +591,10 @@
           <div class="cityhz">广州</div>
           <div class="meta">
             <b>Crowne Plaza City Centre</b> · King Junior Suite<br>
-                        Out Thu: <b>Didi to CAN Terminal 3 at 7:10 AM</b> — NOT Metro Line 3
+            339 Huanshi Rd East, Yuexiu · <a href="tel:+862083638888">+86 20 8363 8888</a><br>
+            Out Thu: <b>Didi to CAN Terminal 3 at 7:10 AM</b> — NOT Metro Line 3
           </div>
+          <div class="citymap" data-city="gz"></div>
         </div>
         <div class="blocks">
           <div class="block">
@@ -471,16 +606,23 @@
             </ul>
           </div>
           <div class="block">
-            <h4>Eat — Wednesday is five stops on foot, by design</h4>
+            <h4>Eat — Wednesday strings five eating stops across the old city</h4>
             <ul>
               <li><b>Wu Cai Ji</b> wonton noodles in its hidden Liwan alley — ¥20, Michelin Bib.</li>
-              <li><b>Nanxin</b> double-skin milk · roast goose at <b>Zhu Zai Ji</b> · a second light dim sum round at <b>Dian Dou De</b>.</li>
+              <li><b>Nanxin</b> double-skin milk · roast goose at <b>Zhu Zai Ji</b> · a second light dim sum round at <b>Dian Dou De</b>. <span class="why">Walk the near hops, Didi the far ones — every ride between stops is ¥15–25.</span></li>
             </ul>
           </div>
           <div class="block">
             <h4>If there's room</h4>
             <ul>
               <li>Chen Clan Ancestral Hall (¥10, best hour of culture in town) · Shamian Island stroll. <span class="why">Cut Shamian before you cut any food.</span></li>
+            </ul>
+          </div>
+          <div class="block">
+            <h4>Station &harr; hotel</h4>
+            <ul class="transit">
+              <li><span class="tag">DIDI</span><b>In, Tue afternoon (Guangzhou South → hotel):</b> Didi — 40–60 min, ¥75–110; the station is 23 km out and you’ll have bags. <span class="why">Metro works if the car queue is ugly: Line 2 → Guangzhou Railway Stn → Line 5 → Taojin, ~65 min, ¥7 — the hotel is a 200 m walk from Taojin station.</span></li>
+              <li><span class="tag">DIDI</span><b>Out, Thu (hotel → CAN Terminal 3):</b> order the Didi at <b>7:10 AM</b> — 35–50 min, ¥110–150 — destination 白云机场T3航站楼出发层 (pre-type it Wednesday night). <span class="why">NOT Metro Line 3 — it only serves T1/T2; rail to T3 is 90+ min with two transfers and a shuttle bus. Fallback: front-desk metered taxi, same price +¥10–20.</span></li>
             </ul>
           </div>
         </div>
@@ -518,17 +660,168 @@
     <h2>Flights</h2>
     <div class="tablewrap">
       <table>
-        <thead><tr><th>Date</th><th>Flight</th><th>Route</th><th>Departs</th><th>Seat / Class</th><th>Conf</th></tr></thead>
+        <thead><tr><th>Date</th><th>Flight</th><th>Route</th><th>Departs</th><th>Class</th></tr></thead>
         <tbody>
-          <tr><td class="mono">OCT 8</td><td class="mono">AA1431</td><td>Miami → Chicago O'Hare</td><td class="mono">8:40 AM</td><td>21F · Economy</td><td class="mono">—</td></tr>
-          <tr><td class="mono">OCT 8</td><td class="mono">CX801</td><td>Chicago → Hong Kong <span class="dim">(A350-1000)</span></td><td class="mono">4:15 PM</td><td>32G · Prem Eco</td><td class="mono">—</td></tr>
-          <tr><td class="mono">OCT 22</td><td class="mono">CX983</td><td>Guangzhou → Hong Kong <span class="dim">(A330)</span></td><td class="mono">10:10 AM</td><td>Economy</td><td class="mono">—</td></tr>
-          <tr><td class="mono">OCT 22</td><td class="mono">CX884</td><td>Hong Kong → Los Angeles <span class="dim">(777-300ER)</span></td><td class="mono">12:45 PM</td><td>33K · Prem Eco</td><td class="mono">—</td></tr>
-          <tr><td class="mono">OCT 22</td><td class="mono">AA3078</td><td>Los Angeles → Miami <span class="dim">(arr 11:28 PM)</span></td><td class="mono">3:30 PM</td><td>16C · Economy</td><td class="mono">—</td></tr>
+          <tr><td class="mono">OCT 8</td><td class="mono">AA1431</td><td>Miami → Chicago O'Hare</td><td class="mono">8:40 AM</td><td>Main Cabin Extra</td></tr>
+          <tr><td class="mono">OCT 8</td><td class="mono">CX801</td><td>Chicago → Hong Kong <span class="dim">(A350-1000)</span></td><td class="mono">4:15 PM</td><td>Prem Eco</td></tr>
+          <tr><td class="mono">OCT 22</td><td class="mono">CX983</td><td>Guangzhou → Hong Kong <span class="dim">(A330)</span></td><td class="mono">10:10 AM</td><td>Economy</td></tr>
+          <tr><td class="mono">OCT 22</td><td class="mono">CX884</td><td>Hong Kong → Los Angeles <span class="dim">(777-300ER)</span></td><td class="mono">12:45 PM</td><td>Prem Eco</td></tr>
+          <tr><td class="mono">OCT 22</td><td class="mono">AA3078</td><td>Los Angeles → Miami <span class="dim">(arr 11:28 PM)</span></td><td class="mono">3:30 PM</td><td>Economy</td></tr>
         </tbody>
       </table>
     </div>
+    <p class="tablenote"><b>One ticket, all five flights</b> — booked as a single Cathay-stock itinerary, so bags can through-tag and a misconnect is the airline’s problem, not yours.</p>
     <p class="tablenote"><b>Return morning:</b> Cathay moved to CAN's new Terminal 3 in March 2026 and Metro Line 3 doesn't serve it. Didi at 7:10 AM, ~40 min, ¥110–150. Check-in for CX983 closes 9:10 AM. Verify the terminal when checking in Oct 20.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section id="tech">
+    <p class="kicker">Phones, screens, and the firewall</p>
+    <h2>Tech — door to door</h2>
+    <p class="lede">The one-line strategy: <em>your phone on a travel eSIM never touches the firewall</em> — it routes through gateways outside the mainland, so Gmail, Google Maps, and WhatsApp all work natively. The eSIM phone is your guaranteed email machine; everything else is convenience. Verified June 2026.</p>
+
+    <h3 class="tech-h"><span class="n">1</span>The apps — install everything before you leave the US</h3>
+    <p class="tech-sub">App stores and provider sites are blocked from inside China. Nothing on this list can be fixed after you land.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>App</th><th>Job</th><th>Setup before departure</th></tr></thead>
+        <tbody>
+          <tr><td><b>Alipay</b></td><td>Payment #1 — plus Didi, metro QR codes, and translate as mini-apps inside it</td><td>Link 2 no-foreign-fee cards + passport-verify by Sept 10. First mainland move: buy a water to confirm the pipes work.</td></tr>
+          <tr><td><b>WeChat</b></td><td>Payment #2, restaurant menus, attraction mini-programs</td><td>Real-name verify early — new accounts sometimes need an existing user to vouch by QR. Solve that at home.</td></tr>
+          <tr><td><b>Didi</b></td><td>Every taxi in every mainland city</td><td>Use the Alipay mini-app version — no separate signup, charges your linked card. Paste the Chinese addresses from the city chapters.</td></tr>
+          <tr><td><b>Trip.com</b></td><td>Train tickets in English with US cards</td><td>Pre-order each rail leg; the ¥10–30 fee buys zero friction. Same price as 12306 otherwise.</td></tr>
+          <tr><td><b>12306</b> (English)</td><td>Live schedules and platform numbers on travel days; official sold-out waitlist</td><td>Register + passport-verify weeks early — verification can take days if the photo's bad.</td></tr>
+          <tr><td><b>Apple Maps</b></td><td>THE mainland map — auto-switches to Amap data inside China, in English, genuinely reliable</td><td>Download offline areas for all six cities. Google Maps is near-useless on the mainland even with VPN.</td></tr>
+          <tr><td><b>Amap 高德</b></td><td>Backup map — best bus data and live taxi tracking</td><td>Turn on English mode.</td></tr>
+          <tr><td><b>Google + Apple Translate + Pleco</b></td><td>Menus, signs, pharmacy runs — camera mode is the daily workhorse</td><td><b>Download offline Chinese packs in BOTH translate apps.</b> Google is blocked on mainland wifi but offline packs + camera keep working; Apple Translate isn't blocked at all — free redundancy. Pleco (free) is the offline dictionary for "what exactly is this" moments. No paid app needed.</td></tr>
+          <tr><td><b>Polarsteps</b></td><td>The trip journal — passive GPS route tracking that drops your geotagged photos onto the route automatically</td><td>Install + start the trip before departure; allow location "Always." GPS tracking works offline (satellites don't care about the firewall); it syncs whenever the eSIM is on. And keep the Camera's location tag ON — Photos maps every shot regardless.</td></tr>
+          <tr><td><b>Octopus for Tourists</b></td><td>HK transit in Apple Wallet — tap iPhone or Watch at MTR gates</td><td>Add the virtual card + load with <b>Visa/MC — foreign Amex not accepted</b>.</td></tr>
+          <tr><td><b>NIA 12367</b></td><td>China Digital Arrival Card — the QR you show at mainland immigration</td><td>File it in Hong Kong the day before West Kowloon (72-hr window); screenshot the QR to Photos.</td></tr>
+          <tr><td><b>VPN</b> (Astrill / LetsVPN)</td><td>Hotel-wifi devices, Gmail on the laptop, and the Claude fix</td><td>Install on <b>every device</b> 3 weeks out — VPN sites are blocked from inside China. Default exit: US or Japan.</td></tr>
+          <tr><td><b>Outlook iOS</b></td><td>Work mail — and add the Gmail account into it too</td><td>Microsoft's servers fetch Gmail for you, so both inboxes flow through the one app the firewall doesn't block.</td></tr>
+          <tr><td><b>MS Authenticator</b></td><td>Work M365 login from anywhere</td><td>Confirm it's enrolled — it works offline; SMS codes are the fragile path.</td></tr>
+          <tr><td><b>AA + Cathay apps</b></td><td>Boarding passes</td><td>Download passes offline + screenshot to Photos before each flight.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="tech-h"><span class="n">2</span>Working from the road</h3>
+    <div class="cards">
+      <div class="card"><h4>Email — already solved</h4>
+        <p>You'll have <b>full email the entire trip</b>. On the eSIM phone, everything works. On raw hotel wifi: <b>M365/Outlook is NOT blocked</b> in mainland China — just slow and occasionally flaky — while <b>Gmail is hard-blocked</b> (all of Google is). If wifi crawls, switch the phone to cellular and it's instant. Hong Kong has no firewall at all.</p></div>
+      <div class="card"><h4>The laptop call — leave it home</h4>
+        <p>The clean play: <b>don't bring the work laptop.</b> It's dead weight anyway — <b>Dropbox has been blocked in China since 2014</b>. Nothing on the itinerary needs a keyboard. The realistic workflow is <b>triage from iPhone + iPad, flag things for return</b>.</p></div>
+      <div class="card"><h4>If the laptop comes anyway</h4>
+        <p><b>Pause Dropbox syncing before departure</b> (it can't sync there regardless; a paused client wakes up clean at home). Anything work-critical is reachable over the VPN or the phone's hotspot. FileVault on, strong password, never left unlocked in the room. Phones and iPads: Face ID + passcode is sufficient.</p></div>
+      <div class="card"><h4>The Claude gotcha</h4>
+        <p>Anthropic geo-blocks mainland China <b>and Hong Kong</b> — and many travel eSIMs exit through HK, so <b>Claude can fail even on the eSIM</b> while everything else works. Fix: VPN on the phone too, connected to a <b>US / Japan / Singapore</b> exit whenever you want Claude. Same story for ChatGPT. Applies in HK Oct 9–11 as well.</p></div>
+      <div class="card"><h4>Hotel wifi scorecard</h4>
+        <p><span class="ok">WORKS:</span> Outlook / M365 / Teams (slow) · <b>iMessage + FaceTime</b> (the family channel) · Apple Maps, iCloud, App Store · Zoom (licensed China presence) · Trip.com, Alipay, WeChat, Didi<br>
+        <span class="no">BLOCKED:</span> Gmail + all Google · Dropbox · WhatsApp, Signal · Instagram, Facebook, X, YouTube · Wikipedia, Reddit, most Western news</p></div>
+      <div class="card"><h4>Calls and the clock</h4>
+        <p>Zoom works if a call is unavoidable — but China is <b>12 hours ahead of US Eastern</b>: 9 AM at the office is 9 PM on the trip. Keep the US line active with <b>roaming on, cellular data OFF</b> — Alipay, banks, and airlines will text codes to it mid-trip. Enable wifi calling before you go.</p></div>
+    </div>
+
+    <h3 class="tech-h"><span class="n">3</span>The kit — what goes in the bag</h3>
+    <div class="cards">
+      <div class="card"><h4>Screens</h4>
+        <ul>
+          <li><b>iPhone</b> — the workhorse. Travel eSIM for data + US line for SMS only.</li>
+          <li><b>iPad</b> — yes; the 5–6 hr train legs are what it's for. Cellular model: its own eSIM. Wifi-only: phone hotspot or hotel wifi + VPN.</li>
+          <li><b>Laptop</b> — optional; the call is in §2. If it comes: VPN installed first, Dropbox paused.</li>
+          <li><b>Apple Watch</b> — fine off the phone's wifi/Bluetooth; its cellular is dead there. Apple Pay works in HK, not the mainland.</li>
+          <li><b>Kindle / AirPods</b> — fine. Load books and shows before flying — the Qinling tunnels kill signal for 45 minutes.</li>
+        </ul></div>
+      <div class="card"><h4>Power</h4>
+        <ul>
+          <li><b>Power bank</b> — one, chosen carefully: <b>≤100 Wh (~27,000 mAh), capacity printed on the casing, name brand, carry-on only.</b> China checks for CCC certification at security; unmarked banks get confiscated. It exists for the Oct 18 triple-train day.</li>
+          <li><b>Universal travel adapter</b> — mainland is 220V with type A/C/I outlets (most accept US flat pins directly); <b>Hong Kong is UK Type G</b>. One universal adapter covers both.</li>
+          <li><b>No voltage converter needed</b> — Apple chargers are dual-voltage. Anything with a heating element (hair dryer) won't work; the hotels have them.</li>
+          <li><b>One USB-C multiport GaN brick</b> (65W+) charges phone, iPad, and Watch overnight from a single outlet — plus <b>two cables per device</b>; one lives in the daypack.</li>
+          <li>Every business-class train seat has an AC outlet + USB.</li>
+        </ul></div>
+      <div class="card"><h4>Leave at home</h4>
+        <ul>
+          <li><b>Garmin inReach / any satellite messenger</b> — illegal in China without a license; confiscation risk at entry.</li>
+          <li><b>Drone</b> — registration + license regime; not worth it.</li>
+          <li><b>Adderall / amphetamine-based meds</b> — the border trap; see the tripwires below.</li>
+        </ul></div>
+    </div>
+
+    <div class="deadlines">
+      <div class="dl"><div class="d">SEPT 10 · 4 WKS OUT</div><div class="w">Alipay + WeChat verified, 12306 registered</div><div class="s">Cards linked, passport-verified, vouching solved at home</div></div>
+      <div class="dl"><div class="d">SEPT 17 · 3 WKS OUT</div><div class="w">VPN on every device · offline packs</div><div class="s">Translate packs + offline maps · Gmail into Outlook · Authenticator confirmed</div></div>
+      <div class="dl"><div class="d">OCT 1 · 1 WK OUT</div><div class="w">Buy + install the eSIM</div><div class="s">China + HK, 15–20 GB, hotspot allowed (Airalo/Nomad yes; some Holafly plans block it)</div></div>
+      <div class="dl"><div class="d">OCT 7 · DAY BEFORE</div><div class="w">Charge the bank · pause Dropbox · screenshots</div><div class="s">Key confirmations into Photos (they work offline)</div></div>
+      <div class="dl"><div class="d">OCT 9 · LANDING HK</div><div class="w">eSIM on, Data Roaming ON, US data OFF</div><div class="s">Test: one email from each account, one FaceTime home</div></div>
+      <div class="dl"><div class="d">OCT 11 · FIRST MAINLAND DAY</div><div class="w">Test the failure modes while fresh</div><div class="s">Hotel wifi + VPN on the iPad · Claude via VPN · phone hotspot</div></div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="packing">
+    <p class="kicker">One bag that rolls</p>
+    <h2>Packing — built around seven trains</h2>
+    <p class="lede">Chinese high-speed rail has <em>no checked luggage</em> — everything you bring rides with you through seven stations, including two 15–20-minute transfer corridors on foot on the triple-train day. The rule that decides everything: <em>if it doesn't roll at walking pace, it's too big.</em></p>
+
+    <div class="cards">
+      <div class="card"><h4>The bags — four pieces</h4>
+        <ul>
+          <li><b>Main: a 21–22&Prime; four-wheel spinner</b> (carry-on size). The official G-train limit is 130 cm combined (~24&Prime;), loosely enforced — but the overhead racks fit carry-on size, and bigger goes to the end-of-car luggage towers (board a few minutes early to claim space). Check it free on the Cathay flights; you only ever carry it on rail days.</li>
+          <li><b>Daypack, 15–20L, zip-top</b> — the everyday bag and train personal item: iPad, power bank, snacks, a layer, the umbrella. Zip-top moves fast through the X-ray at every station and metro entrance.</li>
+          <li><b>Packable duffel, folded flat in the spinner</b> — flies home checked, full of Sam's tailoring, tea, and gifts.</li>
+          <li><b>Small crossbody/sling</b> — the evening food-crawl rig: passport, phone, cash. Zipped, worn in front in station crowds.</li>
+          <li><b>Packing cubes</b> — six hotels in 14 days; live out of the cubes and never really unpack.</li>
+        </ul></div>
+      <div class="card"><h4>Clothes — 8 days, one laundry stop</h4>
+        <ul>
+          <li><b>Pack ~8 days, not 14</b> — the Hilton Xi'an (3 nights, mid-trip) is the natural laundry stop.</li>
+          <li><b>Layers, not bulk:</b> Guangzhou is still summer (72–86°F), Xi'an mornings hit 52°F. Short-sleeve base + one mid layer + one light jacket covers all six cities.</li>
+          <li><b>One pair of broken-in walking shoes</b> — the wall, the quarters, the food crawls — plus slides for hotels and train legs.</li>
+          <li><b>Compact umbrella or light rain shell</b> — Chengdu drizzles, Guilin showers, and HK/GZ carry a small typhoon-tail risk.</li>
+          <li>Dark, quick-dry fabrics — noodle broth and 90% humidity are both real.</li>
+          <li>One smart-casual outfit (hotel dinners, the opera).</li>
+        </ul></div>
+      <div class="card"><h4>The daily loadout (daypack, every morning)</h4>
+        <ul>
+          <li><b>Physical passport</b> — required by law daily, and it literally is your train, museum, and hotel ticket. Zipped inner pocket; copies don't work at checkpoints.</li>
+          <li>Power bank + cable · phone loaded offline.</li>
+          <li><b>Pocket tissues + hand sanitizer</b> — public restrooms rarely stock paper.</li>
+          <li>Compact umbrella · one layer.</li>
+          <li>Small-bill ¥ cash — and the <b>¥20 note</b> for the Xingping photo on Oct 19.</li>
+        </ul></div>
+      <div class="card"><h4>Toiletries &amp; pharmacy</h4>
+        <ul>
+          <li><b>Meds in original bottles</b>, with a doctor's letter — the stimulant rule is the trip's #1 tripwire; only what the letter covers crosses the border.</li>
+          <li>Melatonin (the 12-hour flip) · Imodium + Pepto (street-food insurance) · ibuprofen · band-aids (430 steps) · sunscreen · bug spray for the Guilin river day.</li>
+          <li>Full-size liquids are fine on trains — only the flights care.</li>
+          <li>Skip the hair dryer — hotels have them, and yours wouldn't survive 220V anyway.</li>
+        </ul></div>
+      <div class="card"><h4>Documents &amp; money</h4>
+        <ul>
+          <li>Passport + visa · <b>paper photocopy in the spinner</b> + photos in the camera roll.</li>
+          <li>The printed one-pager: bookings, confirmation numbers, card-issuer phone numbers (the Oct 1 checklist item).</li>
+          <li><b>2+ no-foreign-fee cards, split</b> — one in the daypack, one in the spinner.</li>
+          <li>~US$200 emergency cash · ¥1,500–2,000 from a Bank of China ATM on arrival in Shanghai · small HK$ for the cash-only old guard (Australia Dairy Co., HK taxis).</li>
+        </ul></div>
+      <div class="card"><h4>Flight-day rules</h4>
+        <ul>
+          <li><b>ORD outbound:</b> all five flights are ONE Cathay-stock ticket — so ask MIA check-in to through-tag the bag to HKG; on one ticket they should. If they refuse: claim at AA (T3), ATS train to T5, recheck with Cathay — the 5-hour layover keeps it relaxed either way.</li>
+          <li><b>The cabin-bag rule, both directions:</b> passport, meds, electronics, and one change of clothes never leave your side — nothing you can't lose gets checked during a recheck.</li>
+          <li>Power bank: carry-on only, capacity printed on it (Tech §3).</li>
+        </ul></div>
+    </div>
+
+    <div class="deadlines">
+      <div class="dl"><div class="d">HONG KONG</div><div class="w">75–84°F</div><div class="s">Warm, humid, small typhoon-tail risk</div></div>
+      <div class="dl"><div class="d">SHANGHAI</div><div class="w">63–75°F</div><div class="s">Pleasant, occasional rain</div></div>
+      <div class="dl"><div class="d">XI'AN</div><div class="w">52–70°F</div><div class="s">Crisp and dry — coolest stop; jacket at night</div></div>
+      <div class="dl"><div class="d">CHENGDU</div><div class="w">59–72°F</div><div class="s">Mild, gray, drizzly</div></div>
+      <div class="dl"><div class="d">GUILIN</div><div class="w">66–82°F</div><div class="s">Warm, prime season, some rain</div></div>
+      <div class="dl"><div class="d">GUANGZHOU</div><div class="w">72–86°F</div><div class="s">Still summer — short sleeves</div></div>
+    </div>
   </section>
 
   <hr class="rule">
@@ -537,8 +830,8 @@
     <p class="kicker">What can actually sink this</p>
     <h2>The five real tripwires</h2>
     <div class="wires">
-      <div class="wire"><div><h4>Meds</h4><p>Stimulant ADHD meds are effectively banned in mainland China. <b>Prescriber call Aug 10.</b> Don't board with this unresolved.</p></div></div>
-      <div class="wire"><div><h4>Visa</h4><p>Apply <b>July 13</b> via COVA — nothing else matters if this slips. DC embassy, courier service, 3–4 weeks door-to-door. Backstops calendared Aug 3 and Aug 31.</p></div></div>
+      <div class="wire"><div><h4>Meds</h4><p>Stimulant ADHD meds are effectively banned in mainland China. <b>Sort prescriptions with your doctor months out</b> — don't board with this unresolved.</p></div></div>
+      <div class="wire"><div><h4>Visa</h4><p>Apply <b>~90 days out</b> via COVA — nothing else matters if this slips. Embassy processing via courier runs 3–4 weeks door-to-door.</p></div></div>
       <div class="wire"><div><h4>Real-name everything</h4><p>Trains, Warriors, pandas are all tied to the passport number and booked weeks ahead. <b>The calendar reminders are the system</b> — don't freelance.</p></div></div>
       <div class="wire"><div><h4>The Oct 18 triple-train day</h4><p>Chengdu → Chongqing → Guiyang → Guilin all hinges on the first train. <b>Confirm all three legs ticketed before leaving Xi'an.</b></p></div></div>
       <div class="wire"><div><h4>The tea-ceremony scam</h4><p>Anyone who approaches <em>you</em> in English near a tourist site and suggests going anywhere: <b>smile, no, keep walking.</b> Aimed exactly at solo American men.</p></div></div>
@@ -549,7 +842,7 @@
 <footer>
   <div class="wrap">
     <p><span class="hz">一路平安</span> · SAFE TRAVELS</p>
-    <p>OCT 8–22 2026 · SOLO BY RAIL</p>
+    <p>OCT 8–22 2026 · SEVEN TRAINS · SIX CITIES</p>
   </div>
 </footer>
 
@@ -860,3 +1153,330 @@
   }
 })();
 </script>
+
+<script>
+/* ============ per-city schematic maps ============ */
+(function(){
+  /* [kind h|s|t, lon, lat, label, anchor s|e, dy] */
+  var MAPS = {
+    hk: [
+      ['h',114.160,22.305,'W Hong Kong','s',-8],
+      ['s',114.184,22.390,'10,000 Buddhas','e',-2],
+      ['s',114.154,22.281,'Central · Tai Kwun','s',10],
+      ['s',114.168,22.293,'Star Ferry','e',14],
+      ['s',114.172,22.298,"Sam's Tailor",'s',8],
+      ['s',114.170,22.308,'Temple St','s',-4],
+      ['t',114.161,22.303,'West Kowloon Stn','e',10]
+    ],
+    sh: [
+      ['h',121.487,31.234,'Westin Bund Center','e',-8],
+      ['s',121.490,31.242,'The Bund','s',-4],
+      ['s',121.506,31.234,'Shanghai Tower','e',14],
+      ['s',121.492,31.227,'Yuyuan Bazaar','s',10],
+      ['s',121.470,31.238,'Jia Jia Tang Bao','e',-6],
+      ['t',121.320,31.194,'Hongqiao Stn','s',3]
+    ],
+    xa: [
+      ['h',108.959,34.253,'Hilton','s',3],
+      ['s',108.938,34.266,'Muslim Quarter','e',-2],
+      ['s',108.943,34.246,'City Wall walk','e',12],
+      ['s',109.279,34.384,'Terracotta Warriors','e',-2],
+      ['s',109.212,34.362,'Huaqing Palace','e',12],
+      ['s',108.964,34.213,'Datang Everbright','s',8],
+      ['t',108.940,34.377,'Xi’an North Stn','s',-2]
+    ],
+    cd: [
+      ['h',104.081,30.657,'Grand Hyatt','s',3],
+      ['s',104.147,30.733,'Panda Base','e',-2],
+      ['s',104.055,30.662,'Heming Teahouse','e',8],
+      ['s',104.043,30.668,'Shufeng Yayun opera','e',-6],
+      ['s',104.044,30.642,'Jinli','e',8],
+      ['t',104.141,30.630,'Chengdu East Stn','e',8]
+    ],
+    gl: [
+      ['h',110.305,25.290,'Shangri-La','s',0],
+      ['s',110.264,25.306,'Reed Flute Cave','e',-2],
+      ['s',110.496,24.940,'Xingping · ¥20 view','e',0],
+      ['s',110.490,24.778,'Yangshuo · West Street','e',8],
+      ['t',110.190,25.315,'Guilin West Stn','s',-8]
+    ],
+    gz: [
+      ['h',113.284,23.137,'Crowne Plaza','s',0],
+      ['s',113.243,23.118,'Guangzhou Restaurant','e',0],
+      ['s',113.319,23.106,'Canton Tower','e',12],
+      ['s',113.243,23.128,'Chen Clan Hall','e',-10],
+      ['s',113.240,23.107,'Shamian Island','e',10],
+      ['t',113.269,22.988,'Guangzhou South Stn','s',3]
+    ]
+  };
+  var RAD = Math.PI/180;
+  document.querySelectorAll('.citymap').forEach(function(el){
+    var pts = MAPS[el.getAttribute('data-city')];
+    if (!pts) return;
+    var W=320, M=40, MT=26, MB=30;
+    var lo0=1e9,lo1=-1e9,la0=1e9,la1=-1e9;
+    pts.forEach(function(p){ lo0=Math.min(lo0,p[1]); lo1=Math.max(lo1,p[1]); la0=Math.min(la0,p[2]); la1=Math.max(la1,p[2]); });
+    var pl=(lo1-lo0)*0.09+0.002, pa=(la1-la0)*0.09+0.002;
+    lo0-=pl; lo1+=pl; la0-=pa; la1+=pa;
+    var mid=(la0+la1)/2, cosm=Math.cos(mid*RAD);
+    var kmx=(lo1-lo0)*111*cosm, kmy=(la1-la0)*111, ex;
+    if (kmy/kmx>1.2){ ex=((kmy/1.2)-kmx)/2/(111*cosm); lo0-=ex; lo1+=ex; kmx=kmy/1.2; }
+    if (kmy/kmx<0.55){ ex=((kmx*0.55)-kmy)/2/111; la0-=ex; la1+=ex; kmy=kmx*0.55; }
+    var iw=W-2*M, ih=iw*kmy/kmx, H=ih+MT+MB;
+    function X(lon){ return M+(lon-lo0)/(lo1-lo0)*iw; }
+    function Y(lat){ return MT+(la1-lat)/(la1-la0)*ih; }
+    var kmpp=kmx/iw, bar=[1,2,5,10,20,50].filter(function(k){return k/kmpp>=38 && k/kmpp<=100;})[0]||Math.round(kmx/4);
+    var s='<svg viewBox="0 0 '+W+' '+H.toFixed(0)+'" xmlns="http://www.w3.org/2000/svg" role="img">';
+    s+='<text class="cap" x="10" y="15">SCHEMATIC · N ↑</text>';
+    pts.forEach(function(p){
+      var x=X(p[1]), y=Y(p[2]), lbl=p[3], anc=p[4], dy=(p[5]||0)+3;
+      var tx = anc==='s' ? x+8 : x-8, ta = anc==='s' ? 'start' : 'end', cls='';
+      if (p[0]==='h'){
+        s+='<rect x="-4" y="-4" width="8" height="8" fill="#E3B04B" transform="translate('+x.toFixed(1)+' '+y.toFixed(1)+') rotate(45)"><title>'+lbl+'</title></rect>';
+        cls=' class="gold"';
+      } else if (p[0]==='t'){
+        s+='<rect x="'+(x-3.5).toFixed(1)+'" y="'+(y-3.5).toFixed(1)+'" width="7" height="7" fill="rgba(234,227,214,.65)"><title>'+lbl+'</title></rect>';
+        cls=' class="dim"';
+      } else {
+        s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.6" fill="#D8402C"><title>'+lbl+'</title></circle>';
+      }
+      s+='<text'+cls+' x="'+tx.toFixed(1)+'" y="'+(y+dy).toFixed(1)+'" text-anchor="'+ta+'">'+lbl+'</text>';
+    });
+    var bpx=bar/kmpp, by=H-12;
+    s+='<g class="scale"><line x1="10" y1="'+by+'" x2="'+(10+bpx).toFixed(1)+'" y2="'+by+'" stroke="rgba(143,147,160,.7)" stroke-width="1"/>'
+      +'<line x1="10" y1="'+(by-3)+'" x2="10" y2="'+(by+3)+'" stroke="rgba(143,147,160,.7)" stroke-width="1"/>'
+      +'<line x1="'+(10+bpx).toFixed(1)+'" y1="'+(by-3)+'" x2="'+(10+bpx).toFixed(1)+'" y2="'+(by+3)+'" stroke="rgba(143,147,160,.7)" stroke-width="1"/>'
+      +'<text class="dim" x="'+(14+bpx).toFixed(1)+'" y="'+(by+3)+'">'+bar+' km</text></g>';
+    s+='</svg>';
+    el.innerHTML=s;
+  });
+})();
+
+/* ============ journey tracker ============ */
+(function(){
+  var cv = document.getElementById('trackmap');
+  if (!cv || !cv.getContext) return;
+  var ctx = cv.getContext('2d');
+  var DPR = Math.min(window.devicePixelRatio||1, 2);
+
+  /* chain order = ride order */
+  var CH = [[114.17,22.30],[121.47,31.23],[108.94,34.34],[104.07,30.57],[106.55,29.56],[106.63,26.65],[110.29,25.27],[113.26,23.13]];
+  var NM = ['Hong Kong','Shanghai','Xi’an','Chengdu','Chongqing','Guiyang','Guilin','Guangzhou'];
+  var LOFF = [[9,15,'left',1],[9,-7,'left',1],[0,-11,'center',1],[-9,-7,'right',1],[7,-7,'left',0],[7,13,'left',0],[-9,-9,'right',1],[9,13,'left',1]];
+  var XP = [110.496,24.94];
+
+  var BND = {lo0:102.4, lo1:123.2, la0:21.0, la1:35.8};
+  var S = 64, RT = [], SPUR = [], CPX = [], XPP = null, Wc=0, Hc=0;
+
+  function proj(lon,lat){
+    var m = 34;
+    return [ m + (lon-BND.lo0)/(BND.lo1-BND.lo0)*(Wc-2*m),
+             m + (BND.la1-lat)/(BND.la1-BND.la0)*(Hc-2*m) ];
+  }
+  function cr(p0,p1,p2,p3,t){ var t2=t*t,t3=t2*t;
+    return 0.5*((2*p1)+(-p0+p2)*t+(2*p0-5*p1+4*p2-p3)*t2+(-p0+3*p1-3*p2+p3)*t3); }
+  function rebuild(){
+    var w = cv.clientWidth||600;
+    Wc = w; Hc = Math.max(300, Math.min(0.68*w, 500));
+    cv.width = Math.round(Wc*DPR); cv.height = Math.round(Hc*DPR);
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    CPX = CH.map(function(c){ return proj(c[0],c[1]); });
+    XPP = proj(XP[0],XP[1]);
+    RT = [];
+    for (var s=0;s<CH.length-1;s++){
+      var p0=CPX[Math.max(s-1,0)], p1=CPX[s], p2=CPX[s+1], p3=CPX[Math.min(s+2,CPX.length-1)];
+      for (var k=0;k<S;k++){ var t=k/S; RT.push([cr(p0[0],p1[0],p2[0],p3[0],t), cr(p0[1],p1[1],p2[1],p3[1],t)]); }
+    }
+    RT.push(CPX[CPX.length-1].slice());
+    SPUR = [];
+    var g=CPX[6], mx=(g[0]+XPP[0])/2+10, my=(g[1]+XPP[1])/2+6;
+    for (var q=0;q<=24;q++){ var u=q/24, a=1-u;
+      SPUR.push([a*a*g[0]+2*a*u*mx+u*u*XPP[0], a*a*g[1]+2*a*u*my+u*u*XPP[1]]); }
+  }
+
+  /* ---- schedule (minutes from Oct 8, 12:00 China time) ---- */
+  var T0 = Date.UTC(2026,9,8,4,0);   /* 12:00 CST */
+  var END = 21600;
+  function Mn(d,h,mi){ return ((d-8)*24+h-12)*60+(mi||0); }
+  var SEGS = [
+    {a:0,b:Mn(8,20,40),k:'pre',t:'PRE-TRIP',plan:'Bags packed. Passport + visa in the folder. Didi and Trip.com installed.'},
+    {a:Mn(8,20,40),b:Mn(9,21,0),k:'fly',t:'IN THE AIR — MIA → ORD → HKG',sub:'AA1431 + CX801 · lands Fri Oct 9, 9:00 PM',plan:'Sleep on the A350. Arrive functional.'},
+    {a:Mn(9,21,0),b:Mn(11,11,35),k:'city',c:0,t:'HONG KONG',plan:'10,000 Buddhas at 9 AM · Central walk + Star Ferry at dusk · Temple St',nx:['G902 to Shanghai','Sun Oct 11 · 11:35',Mn(11,11,35)]},
+    {a:Mn(11,11,35),b:Mn(11,19,43),k:'train',s:0,t:'G902 — West Kowloon → Shanghai Hongqiao',sub:'CR400BF-S smart Fuxing · 350 km/h · 8h08 · seat F',
+      mom:[[0,'HK section: 26 km of tunnel — settle in, lunch is coming'],[25,'Guangdong: subtropical hills, banana + lychee country'],[90,'Nanling foothills into Jiangxi — tunnel and viaduct'],[165,'Gan River valley — red soil, camphor trees, the long open stretch'],[240,'Poyang Lake basin — LEFT side'],[300,'Huangshan massif at golden hour — RIGHT side'],[360,'Thousand Island Lake arms in last light'],[425,'Dark. Dinner and the snack basket.']]},
+    {a:Mn(11,19,43),b:Mn(13,9,0),k:'city',c:1,t:'SHANGHAI',plan:'The Bund straight off the train — lights die at 10 PM · Tower sunset Mon · Yuyuan 8:15 AM',nx:['Train to Xi’an','~Tue Oct 13 · 9:00 AM',Mn(13,9,0)]},
+    {a:Mn(13,9,0),b:Mn(13,15,0),k:'train',s:1,t:'~ Shanghai Hongqiao → Xi’an North',sub:'CR400AF/BF Fuxing · 300–350 km/h · ~6h · seat F',
+      mom:[[60,'Dashengguan Yangtze bridge at Nanjing — both sides'],[90,'North China Plain — wheat, poplars, viaduct monotony'],[230,'Luoyang Longmen — the ground starts to wrinkle'],[310,'MOUNT HUA — LEFT side. 2,000 m granite wall, several minutes.'],[330,'Qinling front range on the left into the Wei valley']]},
+    {a:Mn(13,15,0),b:Mn(16,12,15),k:'city',c:2,t:'XI’AN',plan:'Warriors at 8:30 opening (Wed) · City Wall walk (Thu 8 AM) · Muslim Quarter after dark',nx:['Train to Chengdu','~Fri Oct 16 · 12:15 PM',Mn(16,12,15)]},
+    {a:Mn(16,12,15),b:Mn(16,16,0),k:'train',s:2,t:'~ Xi’an North → Chengdu East',sub:'CRH3A · 250 km/h · first HSR across the Qinling · seat F',
+      mom:[[20,'Qinling wall rising ahead — then 45 min of tunnel-flash-tunnel'],[75,'Hanzhong basin reveal — rice country; watch for crested ibis'],[120,'Jialing River gorge glimpses near Guangyuan'],[175,'Flat Sichuan basin — 50 min into Chengdu East']]},
+    {a:Mn(16,16,0),b:Mn(18,8,15),k:'city',c:3,t:'CHENGDU',plan:'Pandas at 7:30 opening · Heming Teahouse · opera 8 PM · hotpot 微辣',nx:['Triple-train day begins','~Sun Oct 18 · 8:15 AM',Mn(18,8,15)]},
+    {a:Mn(18,8,15),b:Mn(18,9,30),k:'train',s:3,t:'~ Chengdu East → Chongqing West · 1 of 3',sub:'CR400AF · 350 km/h — the speed-record corridor',
+      mom:[[10,'Watch the cabin display pin at 350 km/h']]},
+    {a:Mn(18,9,30),b:Mn(18,10,15),k:'stop',c:4,t:'TRANSFER — Chongqing West',plan:'Follow the green 便捷换乘 signs — 15–20 min, stay airside',sub:'Train 2 of 3 boards ~10:15'},
+    {a:Mn(18,10,15),b:Mn(18,12,15),k:'train',s:4,t:'~ Chongqing West → Guiyang North · 2 of 3',sub:'CRH380D/A · capped 200 km/h · 75% bridge-or-tunnel',
+      mom:[[15,'Xinbaishatuo bridge — world’s first double-deck six-track rail bridge'],[55,'Wujiang crossing on 110 m piers — RIGHT side, over in seconds'],[80,'Long March country — Loushanguan, Zunyi']]},
+    {a:Mn(18,12,15),b:Mn(18,13,30),k:'stop',c:5,t:'TRANSFER — Guiyang North',plan:'Lunch in the business lounge — today’s trains are too short for meal service',sub:'Train 3 of 3 boards ~13:30'},
+    {a:Mn(18,13,30),b:Mn(18,16,0),k:'train',s:5,t:'~ Guiyang North → Guilin West · 3 of 3',sub:'CRH380A/D · 300 km/h · the karst super-metro',
+      mom:[[35,'Duyun — tunnel-and-reveal country begins'],[70,'Duliu River valley — Dong villages and drum towers'],[95,'Sanjiang — wind-and-rain-bridge country'],[125,'Tower karst begins — the last 25 min into Guilin']]},
+    {a:Mn(18,16,0),b:Mn(19,8,0),k:'city',c:6,t:'GUILIN',plan:'Nothing tonight — you just rode three trains. Riverside walk at most.',nx:['Local train to Xingping','Mon Oct 19 · ~8:00 AM',Mn(19,8,0)]},
+    {a:Mn(19,8,0),b:Mn(19,8,31),k:'train',sp:1,t:'~ Guilin → Xingping (Yangshuo Stn)',sub:'31 min · densest karst on the network · Li River side is LEFT',
+      mom:[[3,'Solid tower karst the whole way']]},
+    {a:Mn(19,8,31),b:Mn(19,20,30),k:'city',xp:1,t:'XINGPING + YANGSHUO',plan:'Bamboo raft past the ¥20 view · riverside walk · beer fish · Yangshuo wander',nx:['Train back to Guilin','~8:30 PM',Mn(19,20,30)]},
+    {a:Mn(19,20,30),b:Mn(19,21,1),k:'train',sp:-1,t:'~ Xingping → Guilin',sub:'Karst by silhouette',mom:[[3,'Same towers, night shapes']]},
+    {a:Mn(19,21,1),b:Mn(20,10,30),k:'city',c:6,t:'GUILIN',plan:'Guilin rice noodles pre-train · Reed Flute Cave if the clock allows',nx:['Train to Guangzhou','~Tue Oct 20 · 10:30 AM',Mn(20,10,30)]},
+    {a:Mn(20,10,30),b:Mn(20,13,0),k:'train',s:6,t:'~ Guilin West → Guangzhou South',sub:'CRH380/CR400AF · 300 km/h · morning light on the karst',
+      mom:[[25,'Karst climax past Yangshuo'],[45,'Gongcheng'],[70,'Hezhou basin — the towers thin out'],[115,'Zhaoqing East, then the Pearl Delta build-up']]},
+    {a:Mn(20,13,0),b:Mn(22,7,10),k:'city',c:7,t:'GUANGZHOU',plan:'Dim sum 8:15 AM Wed · Canton Tower sunset · Pearl River cruise · five eating stops on foot',nx:['Didi to CAN Terminal 3','Thu Oct 22 · 7:10 AM — NOT Metro Line 3',Mn(22,7,10)]},
+    {a:Mn(22,7,10),b:Mn(22,10,10),k:'stop',c:7,t:'TO THE AIRPORT — CAN Terminal 3',plan:'Didi ~40 min · check-in for CX983 closes 9:10 AM',sub:'Cathay is in the NEW T3 — Metro Line 3 does not go there'},
+    {a:Mn(22,10,10),b:Mn(23,11,28),k:'fly',t:'FLYING HOME — CAN → HKG → LAX → MIA',sub:'CX983 · CX884 · AA3078 · lands MIA 11:28 PM ET',plan:'Premium economy, west to east. You did it.'},
+    {a:Mn(23,11,28),b:END,k:'pre',t:'HOME',plan:'一路平安 — then back to the office.'}
+  ];
+
+  var slider = document.getElementById('tslider');
+  var clockEl = document.getElementById('tclock');
+  var stateEl = document.getElementById('tstate');
+  var nextEl  = document.getElementById('tnext');
+  var winH    = document.getElementById('twin-h');
+  var winEl   = document.getElementById('twin');
+  var winNext = document.getElementById('twin-next');
+  var WD = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+
+  function pad(n){ return (n<10?'0':'')+n; }
+  function clockStr(min){
+    var d = new Date(T0 + min*60000 + 8*3600000);
+    return WD[d.getUTCDay()]+' OCT '+d.getUTCDate()+' · '+pad(d.getUTCHours())+':'+pad(d.getUTCMinutes())+' CN';
+  }
+  function durStr(m){
+    m = Math.max(0, Math.round(m));
+    if (m >= 2880) return Math.round(m/1440)+'d '+Math.round(m%1440/60)+'h';
+    if (m >= 90) return Math.floor(m/60)+'h '+pad(m%60)+'m';
+    return m+'m';
+  }
+  function segAt(min){
+    for (var i=SEGS.length-1;i>=0;i--) if (min >= SEGS[i].a) return SEGS[i];
+    return SEGS[0];
+  }
+  function progressIdx(sg, min){
+    if (sg.k==='train' && sg.s!==undefined){
+      return sg.s*S + Math.min(1,(min-sg.a)/(sg.b-sg.a))*S;
+    }
+    if (sg.c!==undefined) return sg.c*S;
+    if (sg.sp || sg.xp) return 6*S;
+    if (sg.k==='pre' && sg.a===0) return 0;
+    if (sg.k==='fly' && sg.a<Mn(10,0,0)) return 0;
+    return RT.length-1;
+  }
+  function markerPos(sg, min){
+    var f = Math.min(1, Math.max(0,(min-sg.a)/(sg.b-sg.a)));
+    if (sg.k==='train'){
+      if (sg.sp===1)  return SPUR[Math.round(f*(SPUR.length-1))];
+      if (sg.sp===-1) return SPUR[Math.round((1-f)*(SPUR.length-1))];
+      var i = Math.min(RT.length-1, Math.round(sg.s*S + f*S));
+      return RT[i];
+    }
+    if (sg.xp) return SPUR[SPUR.length-1];
+    if (sg.c!==undefined) return CPX[sg.c];
+    return null;
+  }
+
+  function draw(min){
+    var sg = segAt(min);
+    ctx.clearRect(0,0,Wc,Hc);
+    /* spur (dashed) */
+    ctx.setLineDash([3,5]);
+    ctx.strokeStyle='rgba(216,64,44,.30)'; ctx.lineWidth=1;
+    ctx.beginPath(); SPUR.forEach(function(p,i){ i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]); }); ctx.stroke();
+    ctx.setLineDash([]);
+    /* route ahead */
+    var P = Math.round(progressIdx(sg, min));
+    ctx.strokeStyle='rgba(216,64,44,.25)'; ctx.lineWidth=1.4;
+    ctx.beginPath(); for (var i=Math.max(P,0); i<RT.length; i++){ i===P?ctx.moveTo(RT[i][0],RT[i][1]):ctx.lineTo(RT[i][0],RT[i][1]); } ctx.stroke();
+    /* route traveled */
+    if (P>0){
+      ctx.strokeStyle='rgba(224,106,85,.85)'; ctx.lineWidth=2;
+      ctx.beginPath(); for (i=0;i<=P && i<RT.length;i++){ i?ctx.lineTo(RT[i][0],RT[i][1]):ctx.moveTo(RT[i][0],RT[i][1]); } ctx.stroke();
+    }
+    /* stations */
+    ctx.font='10px ui-monospace, "SF Mono", Menlo, monospace';
+    CPX.forEach(function(p,ci){
+      var mj = LOFF[ci][3];
+      ctx.fillStyle = mj ? '#D8402C' : 'rgba(216,64,44,.55)';
+      ctx.beginPath(); ctx.arc(p[0],p[1], mj?3.4:2.2, 0, 7); ctx.fill();
+      ctx.fillStyle = mj ? 'rgba(234,227,214,.85)' : 'rgba(143,147,160,.7)';
+      ctx.textAlign = LOFF[ci][2];
+      ctx.fillText(NM[ci].toUpperCase(), p[0]+LOFF[ci][0], p[1]+LOFF[ci][1]);
+    });
+    ctx.fillStyle='rgba(216,64,44,.55)';
+    ctx.beginPath(); ctx.arc(XPP[0],XPP[1],2.2,0,7); ctx.fill();
+    ctx.fillStyle='rgba(143,147,160,.7)'; ctx.textAlign='left';
+    ctx.fillText('XINGPING', XPP[0]+7, XPP[1]+12);
+    /* marker */
+    var mp = markerPos(sg, min);
+    if (mp){
+      var g = ctx.createRadialGradient(mp[0],mp[1],0,mp[0],mp[1],16);
+      g.addColorStop(0,'rgba(227,176,75,.65)'); g.addColorStop(1,'rgba(227,176,75,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(mp[0],mp[1],16,0,7); ctx.fill();
+      ctx.fillStyle='#E3B04B'; ctx.beginPath(); ctx.arc(mp[0],mp[1],4.5,0,7); ctx.fill();
+    }
+    /* status */
+    clockEl.textContent = clockStr(min);
+    if (sg.k==='train'){
+      var el2=min-sg.a, rem=sg.b-min, pct=Math.round(100*el2/(sg.b-sg.a));
+      stateEl.innerHTML = 'ABOARD — <b>'+sg.t+'</b>';
+      nextEl.innerHTML  = sg.sub+' · <b>'+pct+'%</b> · '+durStr(el2)+' in · arrives ~'+clockStr(sg.b).split('·')[1];
+      winH.textContent='Out the window';
+      var cur=null, nxt=null;
+      (sg.mom||[]).forEach(function(mo){ if (mo[0]<=el2) cur=mo; else if (!nxt) nxt=mo; });
+      winEl.textContent = cur ? cur[1] : '—';
+      winNext.innerHTML = nxt ? 'In <b>'+durStr(nxt[0]-el2)+'</b>: '+nxt[1] : 'Then: arrival.';
+    } else {
+      stateEl.innerHTML = (sg.k==='city' ? 'IN <b>'+sg.t+'</b>' : '<b>'+sg.t+'</b>');
+      if (sg.k==='city'){
+        var dIx = function(m){ return Math.floor((m+720)/1440); };
+        var dayN = dIx(min)-dIx(sg.a)+1, days = dIx(sg.b)-dIx(sg.a)+1;
+        var dtxt = days>1 ? 'Day '+Math.min(dayN,days)+' of '+days : '';
+        nextEl.innerHTML = (dtxt?dtxt+' · ':'')+(sg.nx ? 'Next: <b>'+sg.nx[0]+'</b> · '+sg.nx[1]+' — in '+durStr(sg.nx[2]-min) : '');
+      } else {
+        nextEl.innerHTML = sg.sub || (min<Mn(8,20,40) ? 'Wheels up in '+durStr(Mn(8,20,40)-min) : '');
+      }
+      winH.textContent = sg.k==='fly' || sg.k==='stop' ? 'The move' : 'The plan';
+      winEl.textContent = sg.plan || '—';
+      winNext.textContent = '';
+    }
+  }
+
+  var cur = 0, playing = false, pRaf = null;
+  function setMin(m, fromSlider){
+    cur = Math.max(0, Math.min(END, m));
+    if (!fromSlider) slider.value = Math.round(cur);
+    draw(cur);
+  }
+  slider.addEventListener('input', function(){ stopPlay(); setMin(+slider.value, true); });
+  var playBtn = document.getElementById('tplay');
+  function stopPlay(){ playing=false; playBtn.setAttribute('aria-pressed','false'); playBtn.innerHTML='▶ Play'; if(pRaf){cancelAnimationFrame(pRaf);pRaf=null;} }
+  playBtn.addEventListener('click', function(){
+    if (playing){ stopPlay(); return; }
+    playing=true; playBtn.setAttribute('aria-pressed','true'); playBtn.textContent='❚❚ Pause';
+    if (cur>=END-10) cur=0;
+    var last=null;
+    (function step(ts){
+      if (!playing) return;
+      if (last===null) last=ts;
+      setMin(cur + (ts-last)*0.36);   /* full trip in ~60s */
+      last=ts;
+      if (cur>=END){ stopPlay(); return; }
+      pRaf=requestAnimationFrame(step);
+    })(performance.now());
+  });
+  document.getElementById('tnow').addEventListener('click', function(){
+    stopPlay(); setMin((Date.now()-T0)/60000);
+  });
+
+  window.addEventListener('resize', function(){ rebuild(); draw(cur); });
+  rebuild();
+  var nowMin = (Date.now()-T0)/60000;
+  setMin(nowMin>=0 && nowMin<=END ? nowMin : Mn(11,15,30));
+})();
+</script>
+</html>
