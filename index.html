@@ -96,6 +96,9 @@
     border-top:1px solid var(--line); padding-top:18px;
   }
   .routestrip .stop{ display:flex; align-items:baseline; gap:7px; }
+  a.routestop, .routestrip a.stop{ text-decoration:none; }
+  .routestrip a.stop:hover .en{ color:var(--gold); }
+  .routestrip a.stop:hover{ text-decoration:none; }
   .routestrip .en{ font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; color:var(--paper); }
   .routestrip .hz{ font-family:var(--font-hanzi); font-size:13px; color:var(--cinnabar-soft); }
   .routestrip .arr{ color:var(--muted); margin:0 12px; font-size:11px; }
@@ -335,12 +338,12 @@
         <span class="t" id="cd-label">days until wheels up · MIA 8:40 AM</span>
       </div>
       <div class="routestrip" aria-label="Route">
-        <span class="stop"><span class="en">HONG KONG</span><span class="hz">香港</span></span><span class="arr">→</span>
-        <span class="stop"><span class="en">SHANGHAI</span><span class="hz">上海</span></span><span class="arr">→</span>
-        <span class="stop"><span class="en">XI'AN</span><span class="hz">西安</span></span><span class="arr">→</span>
-        <span class="stop"><span class="en">CHENGDU</span><span class="hz">成都</span></span><span class="arr">→</span>
-        <span class="stop"><span class="en">GUILIN</span><span class="hz">桂林</span></span><span class="arr">→</span>
-        <span class="stop"><span class="en">GUANGZHOU</span><span class="hz">广州</span></span>
+        <a class="stop" href="#city-hongkong"><span class="en">HONG KONG</span><span class="hz">香港</span></a><span class="arr">→</span>
+        <a class="stop" href="#city-shanghai"><span class="en">SHANGHAI</span><span class="hz">上海</span></a><span class="arr">→</span>
+        <a class="stop" href="#city-xian"><span class="en">XI'AN</span><span class="hz">西安</span></a><span class="arr">→</span>
+        <a class="stop" href="#city-chengdu"><span class="en">CHENGDU</span><span class="hz">成都</span></a><span class="arr">→</span>
+        <a class="stop" href="#city-guilin"><span class="en">GUILIN</span><span class="hz">桂林</span></a><span class="arr">→</span>
+        <a class="stop" href="#city-guangzhou"><span class="en">GUANGZHOU</span><span class="hz">广州</span></a>
       </div>
     </div>
   </div>
@@ -516,7 +519,7 @@
     <p class="lede"><em>Didi is China's Uber</em> — it runs inside the Alipay app in English, no Chinese phone number needed, and it's the default for every station transfer below. Hong Kong is the exception: Octopus + MTR, taxis, or Uber. Each chapter's Station ↔ hotel block says when to ride rail and when to just take the car.</p>
 
     <!-- 01 Hong Kong -->
-    <article class="chapter">
+    <article class="chapter" id="city-hongkong">
       <span class="ghost">港</span>
       <div class="chapter-grid">
         <div>
@@ -566,7 +569,7 @@
     </article>
 
     <!-- 02 Shanghai -->
-    <article class="chapter">
+    <article class="chapter" id="city-shanghai">
       <span class="ghost">沪</span>
       <div class="chapter-grid">
         <div>
@@ -615,7 +618,7 @@
     </article>
 
     <!-- 03 Xi'an -->
-    <article class="chapter">
+    <article class="chapter" id="city-xian">
       <span class="ghost">秦</span>
       <div class="chapter-grid">
         <div>
@@ -670,7 +673,7 @@
     </article>
 
     <!-- 04 Chengdu -->
-    <article class="chapter">
+    <article class="chapter" id="city-chengdu">
       <span class="ghost">蜀</span>
       <div class="chapter-grid">
         <div>
@@ -719,7 +722,7 @@
     </article>
 
     <!-- 05 Guilin -->
-    <article class="chapter">
+    <article class="chapter" id="city-guilin">
       <span class="ghost">桂</span>
       <div class="chapter-grid">
         <div>
@@ -769,7 +772,7 @@
     </article>
 
     <!-- 06 Guangzhou -->
-    <article class="chapter">
+    <article class="chapter" id="city-guangzhou">
       <span class="ghost">穗</span>
       <div class="chapter-grid">
         <div>
